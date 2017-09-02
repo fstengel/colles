@@ -20,9 +20,11 @@ Par plateforme. Les solutions présentées sont des exemples.
 ### installation
 
 1. Démarrer votre serveur apache/mySQL
-2. Télécharger le site dpuis GitHub (normalement vous y êtes !) sous forme d'archive .zip.
-3. Décompresser l'archive contenant le dossier complet dans le répertoire racine du serveur web (d'habitude `htdocs`)
+2. Télécharger le site depuis GitHub (normalement vous y êtes !) sous forme d'archive .zip. C'est le bouton vert (`clone or download`) option `Download ZIP`
+3. Décompresser l'archive (a priori `colles-master.zip`) contenant le dossier complet dans le répertoire racine du serveur web (d'habitude `htdocs`)
+4. Renommer le dossier de `colles-master` en `colles`
 2. importer le fichier `sql/Colles-Structure+Donnees.sql` dans votre base de données
+
 
 ## Limitations
 
