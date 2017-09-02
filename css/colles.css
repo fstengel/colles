@@ -1,0 +1,245 @@
+
+/* NB. les url sont relatives à la feuille de style ! */
+
+/*
+couleurs :
+bleu leger		#f5f8fc
+bleu			#d6e1ec
+bleu foncé		#306397
+orange			#f90
+violet (admin)	#E3A4FF
+*/
+
+
+#container { position: relative; width: 250px; /*overflow: hidden;*/}
+#case {border-style: solid; border-width: 1px; border-radius: 10px; background-color: #33CC00;}
+#heurePleine {border-style: solid none none none; border-width: 1px; height: 14px;}
+#heureRegard {border-style: solid solid none none; border-width: 1px; height: 59px;}
+#heureQuard {border-style: dotted none none none; border-width: 1px; height: 14px;}
+#heureDemi {border-style: dashed none none none; border-width: 1px; height: 14px;}
+
+.attention {
+    text-align: center;
+    color: red;
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+body {
+	background-color: #d6e1ec;
+	margin: 0;
+	padding: 0;
+	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+
+	font-size:16px;
+	/**
+	* Default line-height based on font-size rather than "computed-value"
+	* see: http://www.w3.org/TR/CSS21/visudet.html#line-height
+	*/
+	line-height: 1.3em;
+}
+
+p {
+	padding-bottom: .5em;
+	padding-top: .5em;
+}
+
+
+code, pre, tt {
+	font-family: "Courier New", courier, monospace;
+}
+
+
+img {
+	border: 0px;
+}
+
+
+/*
+h1, h2, h3, h4, h5 {
+	font-weight: bold;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	color: #333;
+	}
+
+h1 {
+	font-size: 1.9em;
+	}
+h2 {
+	font-size: 1.4em;
+	}
+h3 {
+	font-size: 1.3em;
+	}
+h4 {
+	font-size: 1.2em;
+	}
+h5 {
+	font-size: 1em;
+	color: #666;
+	}
+*/
+
+
+table	{
+	border-collapse: collapse;
+	padding: 5px;
+}
+td, th	{
+	border-spacing: 3px 5px;
+	/*border: 1px solid gray;*/
+	padding: 2px 5px;
+	/*font-size: 0.9em;*/
+	}
+
+.EDT td, th {
+	border-spacing: 0px;
+	/*border: 1px solid gray;*/
+	padding: 0px;
+	/*font-size: 0.9em;*/
+}
+
+.EDT table {
+	padding: 0px;
+}
+
+
+tr.header, td.header {background-color:#000099; color:white; text-align:left}
+tr.odd {background-color:#eeeeee;}
+tr.even {background-color:#dddddd;vertical-align:top;}
+tr.empty {	background-color: #d6e1ec; text-align:left; color:black;}
+tr.example { background-color: #bbb; color:gray;}
+tr.past {background-color:#aaa; color:gray;}
+tr.pasteven {background-color:#aaa; color:gray;}
+tr.pastodd {background-color:#999; color:gray;}
+tr.forbidden {background-color:#888; color:red; }
+
+a{
+	background-color:transparent;
+	color: #f60;
+	border: 0;
+}
+
+a:hover{
+	background-color:#eff4fa;
+	color:#369;
+	text-decoration:none;
+	border: 0;
+}
+
+
+
+
+/* formulaires */
+form input.valid, form input[type="submit"], input[type="button"], form button {
+	background-color: #f90;
+	border-color: #c60;
+	border-style: solid;
+	padding: 3px;
+	border-width: 2px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 700;
+	text-align: center;
+}
+
+form input.valid:hover, form input[type="submit"]:hover, input[type="button"]:hover, form button:hover {
+	background-color:#69c;
+	padding:3px;
+	border:2px solid #369;
+	color:#fff;
+}
+
+form input.valid:active, form input[type="submit"]:active, input[type="button"]:active, form button:active {
+	background-color:#9cf;
+	padding:3px;
+	border:2px solid #9cb4ce;
+	color:#fff;
+}
+
+form input.reset, form input[type="reset"] {
+	background-color:#f90;
+	border-color:#c60;
+	border-style:solid;
+	padding:3px;
+	border-width:2px;
+	color:#fff;
+	cursor:pointer;
+	font-weight:700;
+	text-align:center;
+}
+
+form input.reset:hover, form input[type="reset"]:hover {
+	background-color:#69c;
+	padding:3px;
+	border:2px solid #369;
+	color:#fff;
+}
+
+form input.reset:active, form input[type="reset"]:active {
+	background-color:#9cf;
+	padding:3px;
+	border:2px solid #9cb4ce;
+	color:#fff;
+}
+
+form select {
+	background-color: #f90;
+	border-color: #c60;
+	border-style: solid;
+	padding: 3px;
+	border-width: 2px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 700;
+	/*font-size:1em;*/
+	text-align: center;
+	
+	/*background-color:#000099; color:white; /*text-align:left;*/
+	/*border-color:#000066*/
+}
+
+form select:hover {
+	background-color:#69c;
+	padding:3px;
+	border:2px solid #369;
+	color:#fff;
+}
+
+form select:active {
+	background-color:#9cf;
+	padding:3px;
+	border:2px solid #9cb4ce;
+	color:#fff;
+}
+
+form select:focus {
+	background-color:#9cf;
+	padding:3px;
+	border:2px solid #9cb4ce;
+	color:#fff;
+}
+
+/*pour les tables inline*/
+
+.blockTable {
+}
+
+/* Fake (pseudo) element, that enables vertical-align */
+.blockTable:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.innerTable {
+  display: inline-block;
+  vertical-align: top;
+}
+
+
+
+
+
