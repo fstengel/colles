@@ -1,4 +1,5 @@
-Liste des connect&eacute;s :<BR>
+
+<h2>Liste des connect&eacute;s :</h2>
 
 <div style="padding-left:5em;">
 	<table style="text-align: left;" border="1" cellpadding="2" cellspacing="2">

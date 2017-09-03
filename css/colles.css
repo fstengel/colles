@@ -25,11 +25,16 @@ violet (admin)	#E3A4FF
 	font-size: 1.5em;
 }
 
+.indente {
+	padding-left: 5em;
+}
+
 body {
 	background-color: #d6e1ec;
 	margin: 0;
 	padding: 0;
-	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+	/*font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;*/
+	font-family: Geneva,Arial,Helvetica,sans-serif;
 
 	font-size:16px;
 	/**
@@ -238,6 +243,7 @@ form select:focus {
   display: inline-block;
   vertical-align: top;
 }
+
 
 
 

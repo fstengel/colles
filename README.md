@@ -16,6 +16,7 @@ Par plateforme. Les solutions présentées sont des exemples.
 
 * Savoir utiliser phpMyAdmin pour importer une base.
 * Savoir mettre en place un site sous apache.
+* Savoir jouer avec GitHub.
 
 ### installation
 

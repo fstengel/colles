@@ -48,6 +48,49 @@ function monIdColloscope() {
 	return $monIdColl;
 }
 
+function HTMLMesCollesCetteSemaine() {
+	global $session;
+	global $accesDB;
+	
+	$moi = $session->utilisateur;
+	$idMoi = $moi->id_personne;
+	$monIdColl = monIdColloscope();
+	
+	$sem = cetteSemaine();
+	
+	if (!$sem) {
+		return "Il n'y a pas de colles pr&eacute;vues cette semaine<BR>";
+	}
+	$idSem = $sem->id_semaine;
+		
+	$req = "SELECT Personne, P.Nom, Prenom, Civilite, Intervenant, id_matiere, M.Nom as Matiere, id_Crenau, C.idColloscope, Jour, Lieu, Debut, Fin FROM ".PrefixeDB."Personne as P join ".PrefixeDB."Intervenant on id_personne=Personne
+		join ".PrefixeDB."Crenau on Intervenant=id_intervenant join ".PrefixeDB."Matiere as M on id_Matiere=Matiere 
+		join ".PrefixeDB."Colle as C on C.Crenau=id_Crenau join ".PrefixeDB."Groupement as G on C.Groupe=G.Groupe and C.idColloscope=G.idColloscope
+		where C.idColloscope=$monIdColl and Semaine=$idSem and Eleve=$idMoi order by Jour, Debut;";
+	$res = $accesDB->ExecRequete($req);
+	$mesColles = $accesDB->ToutesLesLignes($res);
+	$t = new Template(tplPath());
+	$t->set_filenames(array('liste'=>'listeCollesEleve.tpl'));
+	foreach ($mesColles as $i=>$colle) {
+		if ($i%2) $colle['eo']="odd"; else $colle['eo']="even";
+		$colle['Colleur'] = $colle['Civilite']." ".$colle['Nom'];
+		$colle['nJour'] = ucfirst(numVersJour($colle['Jour']));
+		$colle['Debut'] = substr($colle['Debut'],0,-3);
+		$colle['Fin'] = substr($colle['Fin'],0,-3);
+		$t->assign_block_vars('ligne',$colle);
+	}
+	return $t->HTML_for_handle('liste');	
+}
+
+function mesCollesCetteSemaine() {
+	$code = HTMLMesCollesCetteSemaine();
+	echo $code;
+}
+
+/**
+ * @deprecated
+* DEBUG ?
+ */
 function infos() {
 	global $session;
 	global $accesDB;
@@ -118,7 +161,149 @@ function infos() {
 	
 }
 
+function HTMLMesNotesDesSemaines($lesSemaines) {
+	global $session;
+	global $accesDB;
+	
+	$moi = $session->utilisateur;
+	$idMoi = $moi->id_personne;
+	$monIdColl = monIdColloscope();	
+	
+	$req = "SELECT * From Colles_Matiere ORDER BY Nom";
+	$res = $accesDB->ExecRequete($req);
+	$lesMatieres = $accesDB->ToutesLesLignes($res);
+	$lesMatieresParId = array();
+	foreach ($lesMatieres as $i=>$matiere) {
+		$id = $matiere['id_matiere'];
+		$matiereParId[$id] = $matiere;
+	}
+
+	$lesIdSemaines = listeIDSemaines($lesSemaines);
+	$lesSemainesParId = array();
+	foreach ($lesSemaines as $i=>$semaine) {
+		$id = $semaine['id_semaine'];
+		$lesSemainesParId[$id] = $semaine;
+	}
+
+	$req = "SELECT C.Semaine, Matiere, Valeur from Colles_Personne as P Join Colles_Groupement as G  on id_personne=Eleve 
+		join Colles_Note as N on N.Groupement=G.id_groupement Join Colles_Colle as C on N.Colle=C.id_colle join Colles_Crenaucomplet as Cr on Cr.id_crenau=C.Crenau 
+		where Semaine in $lesIdSemaines and G.idColloscope=$monIdColl and P.id_personne=$idMoi";
+	$res = $accesDB->ExecRequete($req);
+	$mesNotes = $accesDB->ToutesLesLignes($res);
+	
+	$tableauNotes = array();
+	foreach ($lesMatieres as $i=>$matiere) {
+		$id = $matiere['id_matiere'];
+		$tableauNotes[$id] = array();
+	}
+	foreach ($mesNotes as $i=>$note) {
+		$sem = $note['Semaine'];
+		$mat = $note['Matiere'];
+		$val = $note['Valeur'];
+		$tableauNotes[$mat][$sem] = $val;
+	}
+
+	$t = new Template(tplPath());
+	$t-> set_filenames(array('liste'=>'listeNotesEleve.tpl'));
+	foreach ($lesSemaines as $i=>$semaine) {
+		$t->assign_block_vars('semaine', array('Nom'=>$semaine['Nom']));
+	}
+	
+	foreach ($lesMatieres as $i=>$matiere) {
+		$nom = $matiere['Nom'];
+		$mat = $matiere['id_matiere'];
+		if ($i%2) $matiere['eo']='odd'; else $matiere['eo']='even';
+		$t->assign_block_vars('ligne',$matiere);
+		$notes = $tableauNotes[$mat];
+		foreach ($lesSemaines as $j=>$semaine) {
+			$sem = $semaine['id_semaine'];
+			if (array_key_exists($sem, $notes)) {
+				$note = parseValeur($notes[$sem]);
+			} else {
+				$note = "";
+			}
+			//echo "$i, $id, $note<BR>";
+			$t->assign_block_vars('ligne.note',array('Valeur'=>$note));
+		}
+	}
+	$code = $t->HTML_for_handle('liste');
+	return $code;
+}
+
+function HTMLMesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
+	global $session;
+	global $accesDB;
+	
+	$lesSemaines = semainesJusquAAujourdhui();
+	if (count($lesSemaines)==0) {
+		echo "Il n'y a pas de semaines de colles. Probl&egrave;me ?<BR>";
+		return;
+	}
+
+	$code = "";
+	
+	if ($idPop) {
+		$nDebut=0;
+		$nFin=count($lesSemaines)-1;
+		foreach ($lesSemaines as $i=>$semaine) {
+			$id = $semaine['id_semaine'];
+			// Debug
+			//echo "$i, $id, $debut ($nDebut), $fin($nFin)<BR>";
+			if ($id==$debut) $nDebut=$i;
+			if ($id==$fin) $nFin=$i;
+		}
+		// Debug
+		//echo "$i, $id, $debut ($nDebut), $fin($nFin)<BR>";
+		$debut=$nDebut;
+		$fin=$nFin;
+		// Debug
+		//echo "D, F : $debut, $fin<BR>";
+	} else {
+		$n = count($lesSemaines);
+		if ($fin<0) $fin=$n+$fin;
+		if ($fin<0) $fin=0;
+		if ($fin>=$n) $fin=$n-1;			
+	}
+	if ($debut>$fin) $debut=$fin;
+	$long = $fin-$debut+1;
+	$semainesAffichees = array_slice($lesSemaines, $debut, $long);
+	$code = HTMLMesNotesDesSemaines($semainesAffichees);
+	
+	$popDebut = popupSemaines($lesSemaines, $debut, "popDebut");
+	$popFin = popupSemaines($lesSemaines, $fin, "popFin");
+
+	$t = new Template(tplPath());
+	$t->set_filenames(array('liste'=>'formSemainesEleve.tpl'));
+	$t->assign_vars( array('action'=>'filtrer', 'quand'=>'?', 'debut'=>$popDebut, 'fin'=>$popFin, 'listeColles'=>$code) );
+	
+	$html = $t->HTML_for_handle('liste');
+	return $html;
+}
+
+function mesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
+	$code = HTMLMesNotesChoixSemaine($debut, $fin, $idPop);
+	echo $code;
+}
+
+/**
+ * @deprecated
+ * @see mesNotesChoixSemaine, HTMLMesNotesChoixSemaine
+ * va disparaître au profit de mesNotesChoixSemaine, HTMLMesNotesChoixSemaine
+ */
 function toutesMesNotes() {
+	global $session;
+	global $accesDB;
+	
+	//$lesSemaines = semainesJusquAAujourdhui();
+	//$code = HTMLMesNotesDesSemaines($lesSemaines);
+	$code = HTMLMesNotesChoixSemaine();
+	echo $code;
+}
+/**
+ * @deprecated
+ * Code mort
+ */
+function toutesMesNotesOLD() {
 	global $session;
 	global $accesDB;
 	
@@ -202,13 +387,53 @@ function toutesMesNotes() {
 	$t->pparse('liste');
 }
 
+function page($debut=0, $fin=-1, $idColl=False) {
+	global $session;
+	global $accesDB;
+	
+	$t = new Template(tplPath());
+	$t-> set_filenames(array('page'=>'pageEleve.tpl'));
+	
+	$cette = HTMLMesCollesCetteSemaine();
+	$notes = HTMLMesNotesChoixSemaine($debut, $fin, $idColl);
+	
+	$t->assign_vars( array('cette'=>$cette, 'notes'=>$notes) );
+
+	$t->pparse('page');
+}
+
+function listerNotes($quand) {
+	switch ($quand) {
+		case "":
+		case"cette":
+		page(-1, -1);
+		break;
+		case "toutes":
+		page();
+		break;
+		default:
+		echo "Rien à faire pour '$quand'(pour l'instant)<BR>";
+	}
+}
+
+function filtrerNotes($quand) {
+	// Debug
+	//print_r($_POST); echo "<BR>";
+	$debut = $_POST['popDebut'];
+	$fin = $_POST['popFin'];
+
+	page($debut, $fin, True);
+}
+
+
 function main() {
 	global $session;
 	global $accesDB;
 	
 	// Debug
-	infos();
-	toutesMesNotes();
+	//infos();
+	//mesCollesCetteSemaine();
+	//toutesMesNotes();
 	
 	$action = ""; $quand="";
 	if (isset($_GET['action'])) {
@@ -219,9 +444,12 @@ function main() {
 	switch ($action) {
 		case "":
 		case "lister":
-		
+		listerNotes($quand);
 		break;
 		
+		case "filtrer":
+		filtrerNotes($quand);
+		break;
 			
 		default:
 		echo "rien à dire ($action, $quand)<BR>";

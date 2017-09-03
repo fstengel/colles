@@ -39,3 +39,5 @@
 </table>
 <hr>
 {message}
+<hr>
+

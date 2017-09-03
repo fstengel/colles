@@ -3,16 +3,18 @@
  * Gestion d'une session
  *
  * @author Frank STENGEL
- * @version 1.0 2016-12-15
+ * @version 1.1 2017-09-03
  *
- * @var object $session l'objet contenant la session. Une ligne de la table Session
- * @var string $idSession l'id de la session
- * @var object $accesDB l'objet de liaison avec la base de données
- * @var object $utilisateur l'objet contenant les données de l'utilisateur. Une ligne de la table Personne
- * @var bool $identifie si l'utilisateur est identifié
- * @var bool $motDePasseAChanger si le mot de passe doit être changé.
- * @var string|False $erreurSession il y a eu une erreur lors de l'ouverture
- * @var object $tpl Le template des formulairs d'identification et de déconnexion.
+ * @var object session l'objet contenant la session. Une ligne de la table Session
+ * @var string idSession l'id de la session
+ * @var object accesDB l'objet de liaison avec la base de données
+ * @var object utilisateur l'objet contenant les données de l'utilisateur. Une ligne de la table Personne
+ * @var bool identifie si l'utilisateur est identifié
+ * @var bool motDePasseAChanger si le mot de passe doit être changé.
+ * @var int typeMotDePasse voir les constantes afférentes.
+ * @var string mdpReel le mot de passe débarrassé de son préfixe éventuel.
+ * @var string|False erreurSession il y a eu une erreur lors de l'ouverture
+ * @var object tpl Le template des formulaires d'identification et de déconnexion.
  */
 require("Chemins.php");
 
@@ -55,6 +57,7 @@ class Session {
 		$this->identifie = FALSE;
 		$this->motDePasseAChanger = TRUE;
 		$this->erreurSession = FALSE;
+		$this->typeMotDePasse = mdpInconnu;
 		if (is_object($this->session)) {
 			$reqSQL = "SELECT * FROM ".PrefixeDB."Personne WHERE id_personne='".$this->session->Personne."'";
 			$res = $this->accesDB->ExecRequete($reqSQL);
@@ -62,6 +65,7 @@ class Session {
 			if (is_object($this->utilisateur))
 				$this->identifie = TRUE;
 		}
+		$this->examenMotDePasseUtilisateur();
 		$this->tpl = new Template(tplPath());
 		$this->tpl->set_filenames(array('login'=>'formIdentification.tpl','logout'=>'formDecconect.tpl'));
 	}
@@ -83,6 +87,80 @@ class Session {
 	}
 	
 	/**
+	 * Examine la nature du mot de passe
+	 * 4 Cas :
+	 * -- vide,
+	 * -- préfixé par prefixeClair (en clair)
+	 * -- préfixé par prefixeCripte (crypté)
+	 * -- sans préfixe (crypté)
+	 * Utilise la valeur du mot de passe de $this->utilisateur.
+	 * Va mettre à jour
+	 * $this->typeMotDePasse
+	 * $this->mdpReel
+	 * $this->motDePasseAChanger
+	 *
+	 * @return void
+	 */
+	
+	function examenMotDePasseUtilisateur() {
+		if (!$this->identifie) {
+			$this->typeMotDePasse = mdpInconnu;
+			return;
+		}
+		$util = $this->utilisateur;
+		$crypte = $util->MotDePasse;
+		// Debug
+		//error_log("ex MDP Util");
+		$this->examenMotDePasse($crypte);
+	}
+	
+	/**
+	 * Examine la nature du mot de passe
+	 * 4 Cas :
+	 * -- vide,
+	 * -- préfixé par prefixeClair (en clair)
+	 * -- préfixé par prefixeCripte (crypté)
+	 * -- sans préfixe (crypté)
+	 * Utilise la valeur du mot de passe de $this->utilisateur.
+	 * Va mettre à jour
+	 * $this->typeMotDePasse
+	 * $this->mdpReel
+	 * $this->motDePasseAChanger
+	 *
+	 * @param string $crypte la mot de passe crypte.
+	 *
+	 * @return void
+	 */
+	
+	function examenMotDePasse($crypte) {
+		// Debug
+		//error_log("Examen MDP : $crypte");
+		if ($crypte=="") {
+			$this->typeMotDePasse = mdpVide;
+			$this->mdpReel = "";
+			$this->motDePasseAChanger = True;
+			return;
+		}
+		$len = strlen(prefixeClair);
+		if (substr($crypte, 0, $len)===prefixeClair) {
+			$this->typeMotDePasse = mdpClair;
+			$this->mdpReel = substr($crypte,$len);
+			$this->motDePasseAChanger = True;
+			return;
+		}
+		$len = strlen(prefixeCrypte);
+		if (substr($crypte, 0, $len)===prefixeCrypte) {
+			$this->typeMotDePasse = mdpCrypte;
+			$this->mdpReel=substr($crypte,$len);
+			$this->motDePasseAChanger = False;
+			return;
+		}
+		$this->typeMotDePasse = mdpCrypte;
+		$this->mdpReel = $crypte;
+		$this->motDePasseAChanger = False;
+	}
+	
+	/**
 	 * Vérifie le mot de passe.
 	 * 4 Cas :
 	 * -- vide,
@@ -96,18 +174,50 @@ class Session {
 	 * @return boolean le mot de passe est vérifié 
 	 */
 	function verifierPasse($crypte, $mdp) {
+		// Debug
+		//error_log("verifier passe");
+		$this->examenMotDePasse($crypte);
+		// Debug
+		//error_log("Verif Passe : $this->typeMotDePasse");
+		switch ($this->typeMotDePasse) {
+			case mdpInconnu:
+			return False;
+			break;
+			case mdpVide:
+			return $mdp=="";
+			case mdpClair:
+			return $mdp===$this->mdpReel;
+			break;
+			case mdpCrypte:
+			return password_verify($mdp, $this->mdpReel);
+			break;
+		}
+	}
+	
+	/**
+	 * @deprecated
+	 * @see verifierPasse
+	 */
+	function verifierPasseOLD($crypte, $mdp) {
 		//echo "mdp : $mdp<BR>";
 		//echo "crypte : $crypte<BR>";
+		$this->examenMotDePasse($crypte);
 		if ($crypte=="") {
+			$this->typeMotDePasse = mdpVide;
+			$this->mdpReel = "";
 			return $mdp=="";
 		}
 		$len = strlen(prefixeClair);
 		if (substr($crypte, 0, $len)===prefixeClair) {
-			return $mdp===substr($crypte,$len);
+			$this->typeMotDePasse = mdpClair;
+			$this->mdpReel = substr($crypte,$len);
+			return $mdp===$this->mdpReel;
 		}
 		$len = strlen(prefixeCrypte);
 		if (substr($crypte, 0, $len)===prefixeCrypte) {
+			$this->typeMotDePasse = mdpCrypte;
 			$crypte=substr($crypte,$len);
+			$this->mdpReel = $crypte;
 		}
 		//echo "crypte (final) : $crypte<BR>";
 		return password_verify($mdp, $crypte);
@@ -185,10 +295,24 @@ class Session {
 			//echo Session::verifierPasse($utilisateur->MotDePasse, $motDePasse)+"<BR>";
 			//if ($utilisateur->MotDePasse != "" || password_verify($utilisateur->MotDePasse, $hash))
 			//if ($utilisateur->MotDePasse == Session::codage($motDePasse))
-			if (Session::verifierPasse($utilisateur->MotDePasse, $motDePasse))
+			if ($this->verifierPasse($utilisateur->MotDePasse, $motDePasse))
 			{
+				/*
 				$this->motDePasseAChanger = FALSE;
 				if ($utilisateur->MotDePasse == "") {
+					$this->motDePasseAChanger  = TRUE;
+				}
+				*/
+				// TODO attaquer la BDD pour changer le MDP crypté...
+				if ($this->typeMotDePasse==mdpCrypte) {
+					$this->motDePasseAChanger = FALSE;
+					$crypte = $this->mdpReel;
+					if (password_needs_rehash($crypte, PASSWORD_DEFAULT)) {
+						$newCrypte = password_hash($motDePasse, PASSWORD_DEFAULT);
+						// Debug
+						//error_log("changer de mdp : $crypte->$newCrypte");
+					}
+				} else {
 					$this->motDePasseAChanger  = TRUE;
 				}
 				$maintenant = date("U");

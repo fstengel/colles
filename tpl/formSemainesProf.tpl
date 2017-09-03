@@ -1,11 +1,11 @@
-<div style="padding-left:5em;">
+<h2>Vos colles</h2>
+<div class="indente">
 	<form method="post" action="gererProf.php?action={action}&quand={quand}" name="formSemaines">
-		<input name="filtrer" value="Filtrer" type="submit" style="visibility:hidden;">
 		<div>
 			<table style="text-align: left; max-width: 200%;" border="1" cellpadding="2" cellspacing="2">
 				<thead>
 					<tr class="header">
-						<th colspan="3">Filtrer</th>
+						<th colspan="3">Filtrer <input name="filtrer" value="Filtrer" type="submit" style="visibility:hidden;"></th>
 					</tr>
 				</thead>
 				<tbody>

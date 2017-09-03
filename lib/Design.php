@@ -83,10 +83,6 @@ function menu($session, $accesDB) {
 			$page = "index.php";
 			// FAIT Pour une future évolution de menu.tpl : replacer {racineRoot}{admin}/{page} par {racineRoot}{newPage} ou équivalent...
 			$newPage = "/index.php";
-			if ($util->Nature & Admin) {
-				//$extra="/admin";
-				$newPage = defautAdmin;
-			}
 			if ($util->Nature==Eleve) {
 				//$page = "gererEleve.php?action=lister&quand=cette";
 				$newPage = defautEleve;
@@ -97,6 +93,10 @@ function menu($session, $accesDB) {
 			if ($util->Nature & Prof) {
 				//$page = "gererProf.php?action=lister&quand=cette";
 				$newPage = defautProf;
+			}
+			if ($util->Nature & Admin) {
+				//$extra="/admin";
+				$newPage = defautAdmin;
 			}
 			$sem = cetteSemaine();
 			$debut = dateSQLVersFrancais($sem->Debut);

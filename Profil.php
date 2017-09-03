@@ -135,7 +135,7 @@ function afficherFormulaire() {
 			$util = $session->lUtilisateur();
 			$nom = $util->Nom;
 			$prenom = $util->Prenom;
-			$type = ucfirst($util->Type);
+			//$type = ucfirst($util->Type);
 			$nature = $util->Nature;
 			$texteNature = Session::natureUtilisateur($nature);
 			$lm = listeMatieres($util);

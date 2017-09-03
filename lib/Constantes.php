@@ -34,11 +34,16 @@ define("JourDefaut", "2015-09-29");
 
 
 
-
+// Mots de passe
 //define("afficherPasse",true);
 define("afficherPasse",false);
 define("prefixeClair","Clair:");
 define("prefixeCrypte","*****:");
+
+define("mdpInconnu",-1);
+define("mdpVide",0);
+define("mdpClair",1);
+define("mdpCrypte",2);
 
 if (local) {
 	define("racineRoot","/colles");

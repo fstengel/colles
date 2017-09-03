@@ -55,6 +55,9 @@ function mesCrenaux() {
 	return $cren;
 }
 
+/**
+ * @deprecated ?
+ */
 function listeSQLMesCrenaux() {
 	$cren = mesCrenaux();
 	$nbCren = count($cren);
@@ -110,6 +113,10 @@ function mesCollesDesSemaines($tabSemaines) {
 	return $colles;
 }
 
+/**
+ * @deprecated
+ * Code Mort
+ */
 function mesCollesDesSemainesOLD($tabSemaines) {
 	$tabColles = array();
 	foreach ($tabSemaines as $sem) {

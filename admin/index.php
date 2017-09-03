@@ -45,6 +45,12 @@ function listerConnectes() {
 
 
 function main() {
+	global $session;
+	
+	// Debug
+	//print_r($session); echo "<BR>";
+	//echo "TM : $session->typeMotDePasse<BR>";
+	
 	listerConnectes();
 }
 
