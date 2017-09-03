@@ -18,7 +18,7 @@ Par plateforme. Les solutions présentées sont des exemples.
 * Savoir mettre en place un site sous apache.
 * Savoir jouer avec GitHub.
 
-### installation
+### Installation
 
 1. Démarrer votre serveur apache/mySQL
 2. Télécharger le site depuis GitHub (normalement vous y êtes !) sous forme d'archive .zip. C'est le bouton vert (`clone or download`) option `Download ZIP`
@@ -26,6 +26,16 @@ Par plateforme. Les solutions présentées sont des exemples.
 4. Renommer le dossier de `colles-master` en `colles`
 2. importer le fichier `sql/Colles-Structure+Donnees.sql` dans votre base de données
 
+### Pour jouer avec
+
+Essayez avec 4 utilisateurs *sans mot de passe* (!) :
+
+* `fstengel` qui est admin, responsable et prof. Attenttion, importer des CSV risque de détruire les données déjà présentes. Ceci dit : on ré-importe la BDD et hop !
+* `pgirault` qui est prof
+* `imartin` qui est responsable
+* `jelgato` qui est élève
+
+Avec un peu de nez on peut trouver d'autres utilisateurs avec leur rôle en utilisant l'admin pour regarder les personnes.
 
 ## Limitations
 

@@ -7,6 +7,7 @@
 * [p] Dans les template/css modifier le` <div style="padding...` pour un `<div class="...` et un classe afférente dans le css.
 * [p] Systématiser le `<div...` précédent
 * [ ] Proprement gérer le debug (fonction+flags...)
+* [ ] Gérer la langue collée. Pour cela il faut changer la table `Groupement` en ajoutant un champ `Langue` et reprendre l'importation des groupes dans `admin/lireCSVGroupes` 
 
 # Nettoyage
 

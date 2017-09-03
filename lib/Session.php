@@ -5,16 +5,16 @@
  * @author Frank STENGEL
  * @version 1.1 2017-09-03
  *
- * @var object session l'objet contenant la session. Une ligne de la table Session
- * @var string idSession l'id de la session
- * @var object accesDB l'objet de liaison avec la base de données
- * @var object utilisateur l'objet contenant les données de l'utilisateur. Une ligne de la table Personne
- * @var bool identifie si l'utilisateur est identifié
- * @var bool motDePasseAChanger si le mot de passe doit être changé.
- * @var int typeMotDePasse voir les constantes afférentes.
- * @var string mdpReel le mot de passe débarrassé de son préfixe éventuel.
- * @var string|False erreurSession il y a eu une erreur lors de l'ouverture
- * @var object tpl Le template des formulaires d'identification et de déconnexion.
+ * @var object $session l'objet contenant la session. Une ligne de la table Session
+ * @var string $idSession l'id de la session
+ * @var object $accesDB l'objet de liaison avec la base de données
+ * @var object $utilisateur l'objet contenant les données de l'utilisateur. Une ligne de la table Personne
+ * @var bool $identifie si l'utilisateur est identifié
+ * @var bool $motDePasseAChanger si le mot de passe doit être changé.
+ * @var int $typeMotDePasse voir les constantes afférentes.
+ * @var string $mdpReel le mot de passe débarrassé de son préfixe éventuel.
+ * @var string|False $erreurSession il y a eu une erreur lors de l'ouverture
+ * @var object $tpl Le template des formulaires d'identification et de déconnexion.
  */
 require("Chemins.php");
 
@@ -39,6 +39,8 @@ class Session {
 	var $accesDB;
 	var $utilisateur, $identifie;
 	var $motDePasseAChanger;
+	var $typeMotDePasse;
+	var $mdpReel;
 	var $erreurSession;
 	var $tpl;
 	

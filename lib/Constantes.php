@@ -6,6 +6,7 @@
  *
  */
 
+// TODO voir pour faire LibDebug avec plus de choix
 define("debug",true);
 //define("debug",false);
 
@@ -32,19 +33,23 @@ define("AnneeDefaut",2015);
 define("JourDefaut", "2015-09-29");
 //</DEBUG>
 
+// TODO Supprimer : Mort...
+// Résidu
+//define("afficherPasse",true);
+//define("afficherPasse",false);
 
 
 // Mots de passe
-//define("afficherPasse",true);
-define("afficherPasse",false);
+// Prefixes
 define("prefixeClair","Clair:");
 define("prefixeCrypte","*****:");
-
+// Nature
 define("mdpInconnu",-1);
 define("mdpVide",0);
 define("mdpClair",1);
 define("mdpCrypte",2);
 
+// URL du site et page de base.
 if (local) {
 	define("racineRoot","/colles");
 	define("racineSite","http://localhost:8888/colles/"); // Local
