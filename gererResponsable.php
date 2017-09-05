@@ -28,80 +28,68 @@ if ($ok!=VALIDE) {
 require_once(libPath()."LibSemaines.php");
 require_once(libPath()."LibNotes.php");
 
-/*
-function test() {
+function popupClasseMatiere($lesResponsables, $no=-1, $idPop=False, $form="formSemaines") {
 	global $session;
 	global $accesDB;
 	
-	$t0 = microtime(True);
-	$sem = cetteSemaine();
-	$idSem = $sem->id_semaine;
-	$idColl = 2;
-	$semaines = semainesJusquAAujourdhui();
-	$idSemaines = listeIDSemaines($semaines);
-	//$matiere = 1;
+	if (count($lesResponsables)==0) {
+		return "(Rien !)";
+	}
 	
-	$moi = $session->utilisateur;
-	$monId = $moi->id_personne;
-	$req = "SELECT * FROM ".PrefixeDB."Responsable WHERE Personne=$monId";
-	$res = $accesDB->ExecRequete($req);
-	$leResponsable = $accesDB->ObjetSuivant($res);
-	$matiere = $leResponsable->Matiere;
+	$req = "SELECT * FROM ".PrefixeDB."Division WHERE id_parent is NULL ORDER BY nom";
+	$res = $accesDB->execRequete($req);
+	$lesClasses = $accesDB->ToutesLesLignes($res);
+	$lesClassesParId = array();
+	foreach ($lesClasses as $i=>$classe) {
+		$id = $classe['id_division'];
+		$lesClassesParId[$id] = $classe;
+	}
+	$req = "SELECT * FROM ".PrefixeDB."Matiere ORDER BY nom";
+	$res = $accesDB->execRequete($req);
+	$lesMatieres = $accesDB->ToutesLesLignes($res);
+	$lesMatieresParId = array();
+	foreach ($lesMatieres as $i=>$matiere) {
+		$id = $matiere['id_matiere'];
+		$lesMatieresParId[$id] = $matiere;
+	}
 	
-	$req = "SELECT * FROM ".PrefixeDB."Classe WHERE idColloscope=$idColl ORDER BY Nom, Prenom";
-	$res = $accesDB->ExecRequete($req);
-	$classe = $accesDB->ToutesLesLignes($res);
 	// Debug
-	//print_r($classe); echo "<BR>";
-	$groupementClasse = array();
-	$notesClasse = array();
-	foreach ($classe as $i=>$eleve) {
-		$gr = $eleve['Groupement'];
-		$groupementClasse[$gr] = $i;
-		$notesClasse[$i] = array();
+	//echo "Classes : "; print_r($lesClassesParId);  echo "<BR>";
+	//echo "Matieres : "; print_r($lesMatieresParId);  echo "<BR>";
+	//echo "Resp : "; print_r($lesResponsables);  echo "<BR>";
+	
+	$pop = "<select name=\"popClasse\" onchange=\"document.$form.filtrer.click()\" >";
+	if ($no==-1) {
+		$pop .= "<option value=\"-1\" selected>Toutes</option>";
+	} else {
+		$pop .= "<option value=\"-1\">Toutes</option>";
 	}
-	$req = "SELECT * FROM ".PrefixeDB."Note AS N JOIN ".PrefixeDB."Colle AS C ON N.Colle=C.id_colle 
-		JOIN ".PrefixeDB."CrenauComplet AS Cr ON  C.Crenau=Cr.id_crenau where C.idColloscope=$idColl AND Matiere = $matiere AND Semaine IN $idSemaines";
-	echo "Req : $req<BR>";
-	$res = $accesDB->ExecRequete($req);
-	$notes = $accesDB->ToutesLesLignes($res);
-	foreach ($notes as $i=>$note) {
-		$idEleve = $groupementClasse[$note['Groupement']];
-		$semaine = $note['Semaine'];
-		$notesClasse[$idEleve][$semaine]=$note['Valeur'];
-	}
-	$t1 = microtime(True);
-	// Debug
-	//print_r($semaines); echo "<BR>";
-	$t = new Template(tplPath());
-	$t-> set_filenames(array('liste'=>'listeNotesResponsable.tpl'));
-	foreach ($semaines as $i=>$semaine) {
-		$t->assign_block_vars('semaine', array('Nom'=>$semaine['Nom']));
-	}
-	foreach ($classe as $i=>$eleve) {
-		if ($i%2) $eleve['eo']='odd'; else $eleve['eo']='even';
-		$t->assign_block_vars('ligne',$eleve);
-		//print_r($notesClasse[$i]); echo "<BR>";
-		foreach ($semaines as $j=>$semaine) {
-			$id = $semaine['id_semaine'];
-			if (array_key_exists($id, $notesClasse[$i])) {
-				$note = $notesClasse[$i][$id];
-			} else {
-				$note = "";
-			}
-			//echo "$i, $id, $note<BR>";
-			$t->assign_block_vars('ligne.note',array('Valeur'=>$note));
+	foreach ($lesResponsables as $i=>$responsable) {
+		$idMatiere = $responsable['Matiere'];
+		$matiere = $lesMatieresParId[$idMatiere]['Nom'];
+		$idDivision = $responsable['Division'];
+		$division = $lesClassesParId[$idDivision]['nom'];
+		$idColl = $responsable['id'];
+		// Debug
+		//echo "Info : $idDivision, $idMatiere, $idColl<BR>";
+		$valeur = "$idColl,$idMatiere";
+		$texte = "$division : $matiere";
+		
+		$selected = False;
+		if ($idPop) {
+			$selected = ($valeur===$no);
+		} else {
+			$selected = ($no==$i);
+		}
+		if ($selected) {
+			$pop .= "<option value=\"$valeur\" selected>$texte</option>";
+		} else {
+			$pop .= "<option value=\"$valeur\">$texte</option>";
 		}
 	}
-	$t2 = microtime(True);
-	$t->pparse('liste');
-	$t3 = microtime(True);
-	$dt1 = $t1-$t0;
-	$dt2 = $t2-$t1;
-	$dt3 = $t3-$t2;
-	echo "dt : $dt1, $dt2, $dt3<BR>";
+	$pop .= "</select>";
+	return $pop;
 }
-*/
 
 function afficherNotes($semaines, $idColl, $matiere) {
 	echo HTMLPourAfficherNotes($semaines, $idColl, $matiere);
@@ -204,7 +192,7 @@ function listerMesNotesDesSemaines($semaines) {
 	$t->pparse('liste');
 }
 
-function listerMesNotesChoixDesSemaines($debut=0, $fin=-1, $afficher=True, $idPop=False) {
+function listerMesNotesChoixDesSemaines($debut=0, $fin=-1, $classe=-1, $afficher=True, $idPop=False) {
 	global $session;
 	global $accesDB;
 	
@@ -247,24 +235,36 @@ function listerMesNotesChoixDesSemaines($debut=0, $fin=-1, $afficher=True, $idPo
 		$popDebut = popupSemaines($lesSemaines, $debut, "popDebut");
 		$popFin = popupSemaines($lesSemaines, $fin, "popFin");
 		//À faire !
-		$popClasse = "(pour l'instant toutes)";
+		$popClasse = popupClasseMatiere($lesResponsables, $classe, $idPop);
+		//$popClasse = "(pour l'instant toutes)";
 		
 		$t = new Template(tplPath());
 		$t->set_filenames(array('liste'=>'formSemainesResponsable.tpl'));
 		$t->assign_vars(array('action'=>'filtrer', 'quand'=>'?', 'classe'=>$popClasse, 'debut'=>$popDebut, 'fin'=>$popFin) );
 		
+		$tous = $classe==-1;
+		$idCollMatiere = explode(",",$classe);
+		// Debug
+		//echo "Tous : $tous -  $idCollMatiere[0] : $idCollMatiere[1] <BR>";
 		foreach ($lesResponsables as $i=>$responsable) {
 			$matiere = $responsable['Matiere'];
 			$idColl = $responsable['id'];
-			$code = HTMLPourAfficherNotes($semainesAffichees, $idColl, $matiere);
-			$t->assign_block_vars('notes', array('classe'=>$code) );
+			// Debug
+			//echo "($idColl,$matiere) : ($idCollMatiere[0],$idCollMatiere[1])<BR>";
+			//$ok = ($idCollMatiere[0]==$idColl and $idCollMatiere[1]==$matiere);
+			//echo "OK : $ok<BR>";
+			if ($tous or ($idCollMatiere[0]==$idColl and $idCollMatiere[1]==$matiere)) {
+				$code = HTMLPourAfficherNotes($semainesAffichees, $idColl, $matiere);
+				$t->assign_block_vars('notes', array('classe'=>$code) );
+			}
 		}
 		$t->pparse('liste');
 	} else {
 		$popDebut = popupSemaines($lesSemaines, $debut, "popDebut");
 		$popFin = popupSemaines($lesSemaines, $fin, "popFin");
 		//À faire !
-		$popClasse = "(pour l'instant toutes)";
+		$popClasse = popupClasseMatiere($lesResponsables);
+		//$popClasse = "(pour l'instant toutes)";
 		
 		$t = new Template(tplPath());
 		$t->set_filenames(array('liste'=>'formSemainesResponsable.tpl'));
@@ -325,7 +325,11 @@ function listerNotes($quand) {
 function filtrerNotes($quand) {
 	$debut = $_POST['popDebut'];
 	$fin = $_POST['popFin'];
-	listerMesNotesChoixDesSemaines($debut, $fin, True, True);
+	$classe = $_POST['popClasse'];
+	
+	//Debug
+	//echo "Filtrer  :"; print_r($_POST); echo "<BR>";
+	listerMesNotesChoixDesSemaines($debut, $fin, $classe, True, True);
 }
 
 function main() {
