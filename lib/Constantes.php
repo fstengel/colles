@@ -68,7 +68,7 @@ define("Admin", Eleve<<8);
 // Les pages d'entrée
 define("defautEleve","/gererEleve.php?action=lister&quand=cette");
 define("defautProf","/gererProf.php?action=lister&quand=cette");
-define("defautResponsable", "/gererResponsable.php");
+define("defautResponsable", "/gererResponsable.php?action=lister&quand=cette");
 define("defautAdmin","/admin/index.php");
 
 //Les notes magiques

@@ -18,7 +18,7 @@ require(libPath()."Session.php");
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
 
-$ok = $session->controleAccesCode(racineSite."gererProf.php?action=lister",array(Prof),PageDeBase);
+$ok = $session->controleAccesCode(racineSite."gererProf.php?action=lister&quand=cette",array(Prof),PageDeBase);
 if ($ok!=VALIDE) {
 	// Normalement on ne passe pas par là !
 	piedDePage();

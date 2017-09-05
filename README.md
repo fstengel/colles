@@ -28,6 +28,8 @@ Par plateforme. Les solutions présentées sont des exemples.
 
 ### Pour jouer avec
 
+La page d'acceuil sera à l'URL *votreServeur*/colles/ où *votreServeur* est bien sûr l'adresse de votre serveur web personnel. Chez moi c'est `http://localhost:8888`
+
 Essayez avec 4 utilisateurs *sans mot de passe* (!) :
 
 * `fstengel` qui est admin, responsable et prof. Attenttion, importer des CSV risque de détruire les données déjà présentes. Ceci dit : on ré-importe la BDD et hop !
@@ -54,3 +56,7 @@ Les fichiers de `lib/` sont généralement documentés. Pour les fichiers princi
 ### Encodage
 
 UTF-8 sans BOM.
+
+### License
+
+GPL 3 ou compatibles.

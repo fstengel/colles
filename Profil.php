@@ -15,11 +15,6 @@ require_once(libPath()."Util.php");
 require_once(libPath()."AccesDB.php");
 require(libPath()."Session.php");
 
-define("pasDePOST",1);
-define("POSTValide",2);
-define("POSTMailInvalide",3);
-define("POSTPassInvalide",4);
-
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
 
@@ -30,6 +25,11 @@ if ($ok!=VALIDE) {
 	piedDePage();
 	return;
 }
+
+define("pasDePOST",1);
+define("POSTValide",2);
+define("POSTMailInvalide",3);
+define("POSTPassInvalide",4);
 
 
 function validerMail($mail) {

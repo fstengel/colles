@@ -20,7 +20,7 @@ require_once(libPath()."LibNotes.php");
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
 
-$ok = $session->controleAccesCode(racineSite."gererEleve.php?action=acceuil",array(Eleve),PageDeBase);
+$ok = $session->controleAccesCode(racineSite."gererEleve.php?action=lister&quand=cette",array(Eleve),PageDeBase);
 if ($ok!=VALIDE) {
 	// Normalement on ne passe pas par là !
 	piedDePage();

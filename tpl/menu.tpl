@@ -10,7 +10,6 @@
 						<td style="width: 160px;"><a href="{racineRoot}/Profil.php">Profil</a></td>
 						<td style="width: 160px;"></td>
 						<td style="width: 160px;"></td>
-						<td style="width: 160px;"></td>
 					</tr>
 					<!-- BEGIN menus -->	
 					{menus.menu}
