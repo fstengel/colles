@@ -18,7 +18,13 @@ require(libPath()."Session.php");
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
 
-function redirection() {
+/**
+ * @deprecated
+ *
+ * Code Mort. Commenté. À couper. Gardé pour l'instant : debug !
+ */
+/*
+function redirectionOLD() {
 	global $session;
 	
 	$util = $session->lUtilisateur();
@@ -55,6 +61,7 @@ function redirection() {
 		return;
 	}	
 }
+*/
 
 entete("Gestion des Colles &mdash; PC Fabert ".Annee);
 

@@ -1,4 +1,5 @@
 <form method="post" action="gererProf.php?action=modifier&quand={quand}" name="formColles">
+	A, Abs, ABS : élève absent ; N, Nn, NN : élève non noté ; case vide : pas de note attribuée.<BR>
 	<table style="text-align: left; max-width: 200%;" border="1" cellpadding="2" cellspacing="2">
 		<tbody>
 			<tr class='header' style="text-align:center; vertical-align:top;">

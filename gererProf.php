@@ -43,6 +43,10 @@ function tabDivisionParIdColloscope() {
 	return $div;
 }
 
+/**
+ * @deprecated
+ * N'est utilisé que par la suivante et info() : donc pour Debug.
+ */
 
 function mesCrenaux() {
 	global $session;
@@ -56,7 +60,8 @@ function mesCrenaux() {
 }
 
 /**
- * @deprecated ?
+ * @deprecated
+ * N'est utilisé que par info() : donc pour Debug.
  */
 function listeSQLMesCrenaux() {
 	$cren = mesCrenaux();
@@ -74,6 +79,12 @@ function listeSQLMesCrenaux() {
 	return $liste;
 }
 
+/**
+ * @deprecated
+ * Utilisée par la fct suivante
+ * Code Mort
+ */
+/*
 function mesCollesUneSemaine($idSem) {
 	global $session;
 	global$accesDB;
@@ -88,7 +99,13 @@ function mesCollesUneSemaine($idSem) {
 	$colles = $accesDB->ToutesLesLignes($res);
 	return $colles;
 }
-
+*/
+/**
+ * @deprecated
+ * Utilisée par la fct suivante
+ * Code Mort
+ */
+/*
 function mesCollesDesSemainesSeparees($tabSemaines) {
 	$tabColles = array();
 	foreach ($tabSemaines as $sem) {
@@ -96,7 +113,15 @@ function mesCollesDesSemainesSeparees($tabSemaines) {
 	}
 	return $tabColles;
 }
+*/
 
+/**
+ * Récupère les colles de l'utilisateur des semaines passées en argument
+ *
+ * @param array(array) $tabSemaines la liste des semaines tirées de la table Semaines
+ *
+ * @return array(array) la liste des colles tirée de la table Colles
+ */
 function mesCollesDesSemaines($tabSemaines) {
 	global $session;
 	global$accesDB;
@@ -117,6 +142,7 @@ function mesCollesDesSemaines($tabSemaines) {
  * @deprecated
  * Code Mort
  */
+/*
 function mesCollesDesSemainesOLD($tabSemaines) {
 	$tabColles = array();
 	foreach ($tabSemaines as $sem) {
@@ -125,7 +151,16 @@ function mesCollesDesSemainesOLD($tabSemaines) {
 	}
 	return $tabColles;
 }
+*/
 
+/**
+ * Détermine les élèves d'un groupe
+ *
+ * @param string $groupe le nom du groupe
+ * @param int $idColl l'id du colloscope
+ *
+ * @return array(array) les lignes contenant les {Eleve, Nom, Prenom, id_groupement} du groupe.
+ */
 function elevesDuGroupe($groupe, $idCol) {
 	global $session, $accesDB;
 
@@ -139,6 +174,13 @@ function elevesDuGroupe($groupe, $idCol) {
 	return $tab;
 }
 
+/**
+ * Détermine les élèves et les notes d'un groupe pour une colle donnée
+ *
+ * @param string $idColle l'id de la colle
+ *
+ * @return array(array) les lignes contenant {Eleve, Nom, Prenom, id_groupement, Valeur, id_note} pour le groupe.
+ */
 function elevesDuGroupeAvecNote($idColle) {
 	global $session, $accesDB;
 	
@@ -158,6 +200,10 @@ function elevesDuGroupeAvecNote($idColle) {
 	return $tab;
 }
 
+/**
+ * @deprecated
+ * Code mort. À commenter...
+ */
 function listeDesElevesDuGroupe($groupe, $idCol) {
 	global $session, $accesDB;
 
@@ -173,6 +219,15 @@ function listeDesElevesDuGroupe($groupe, $idCol) {
 	return $liste;
 }
 
+/**
+ * Produit le code HTML listant les créneaux avec les notes pour les semaines données en argument
+ *
+ * Va produire un code utilisant le template formCollesProf.tpl
+ *
+ * @param array(array) $lesSemaines le tableau des semaines tirées de la table Semaines
+ *
+ * @return string le code HTML
+ */
 function HTMLCrenauxDesSemaines($lesSemaines) {
 	global $session;
 	global $accesDB;
@@ -232,11 +287,24 @@ function HTMLCrenauxDesSemaines($lesSemaines) {
 	
 }
 
+/**
+ * @deprecated pour debug
+ */
 function listerCrenauxDesSemaines($lesSemaines) {
 	$code = HTMLCrenauxDesSemaines($lesSemaines);
 	echo $code;
 }
 
+/**
+ * Liste les crenaux/notes pour les semaines de $debut à $fin.
+ *
+ * @param int $debut=0 le numero d'ordre ou l'id due la semaine de début. Si -1 : la dernière accessible
+ * @param int $fin=-1 le numero d'ordre ou l'id de la semaine de fin. Si -1 : la dernière accessible
+ * @param boolean $afficher=True si vrai affiche les colles. sinon il n'y a que le formulaire de choix.
+ * @param boolean $idColl=False si vrai $debut et $fin sont des id de semaine.
+ *
+ * @return void
+ */
 function listerCrenauxChoixSemaines($debut=0, $fin=-1, $afficher=True, $idPop=False) {
 	global $session;
 	global $accesDB;
@@ -290,6 +358,13 @@ function listerCrenauxChoixSemaines($debut=0, $fin=-1, $afficher=True, $idPop=Fa
 	$t->pparse('liste');
 }
 
+/**
+ * Liste les Crénaux
+ *
+ * @param string $quand indique quoi aficher. "", "cettte" : cette semaine, "toutes" pour les afficher toutes.
+ *
+ * @return void
+ */
 function listerCrenaux($quand) {
 	switch ($quand) {
 		case "":
@@ -310,6 +385,13 @@ function listerCrenaux($quand) {
 	}
 }
 
+/**
+ * Filtre les crénaux
+ *
+ * @param string $quand N'a aucune influence. Est là pour des raisons d'uniformité.
+ *
+ * @return void
+ */
 function filtrerCrenaux($quand) {
 	// Debug
 	//print_r($_POST); echo "<BR>";
@@ -318,6 +400,11 @@ function filtrerCrenaux($quand) {
 	listerCrenauxChoixSemaines($debut, $fin, True, True);
 }
 
+/**
+ * Modifie les notes des crénaux
+ *
+ * @return void
+ */
 function modifierNotes() {
 	global $session;
 	global $accesDB;
@@ -325,6 +412,8 @@ function modifierNotes() {
 	// Debug
 	//print_r($_POST); echo "<BR>";
 	$fait = False;
+	$nModif = 0;
+	$nAjout = 0;
 	if (array_key_exists('valid', $_POST)) {
 		$groupement = $_POST['groupement'];
 		$idColloscope = $_POST['idColloscope'];
@@ -338,28 +427,41 @@ function modifierNotes() {
 					$note  = parseNote($champNote[$n]);
 					$req = "UPDATE ".PrefixeDB."Note SET Valeur='$note' WHERE id_note=$idNote[$n]";
 					// Debug
-					echo "$req<BR>";
+					//echo "$req<BR>";
 					$res = $accesDB->ExecRequete($req);
-					$Fait = True;
+					$fait = True;
+					$nModif++;
 				}
 			} else {
 				if ($champNote[$n]) {
 					$note  = parseNote($champNote[$n]);
 					$req = "INSERT INTO ".PrefixeDB."Note (idColloscope, Valeur, Colle, Groupement) VALUES ($idColloscope[$n], '$note', $idColle[$n], $groupe)";
 					// Debug
-					echo "$req<BR>";
+					//echo "$req<BR>";
 					$res = $accesDB->ExecRequete($req);
 					$fait = True;
+					$nAjout++;
 				}			
 			}
 		}
 	}
+	// Debug...
 	if (!$fait) {
 		// Debug
-		echo "Rien &agrave; faire<BR>";
+		echo "Il n'y a rien &agrave; faire<BR>";
+	} else {
+		echo "Nombre de modifications : $nModif.<BR>";
+		echo "Nombre d'ajouts : $nAjout.<BR>";
 	}
+	echo "Pour voir le résultat de vos actions, cliquez le lien correspondant...<BR>";
+	redirection(Prof);
 }
 
+/**
+ * @deprecated
+ *
+ * Pour debug
+ */
 function infos() {
 	global $session;
 	global $accesDB;
@@ -392,6 +494,11 @@ function infos() {
 	
 }
 
+/**
+ * Aiguille en fonction de $_GET
+ *
+ * @return void
+ */
 function main() {
 	global $session;
 	global $accesDB;

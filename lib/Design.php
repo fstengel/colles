@@ -98,6 +98,7 @@ function menu($session, $accesDB) {
 				//$extra="/admin";
 				$newPage = defautAdmin;
 			}
+			$newPage = pageParDefaut($util->Nature);
 			$sem = cetteSemaine();
 			$debut = dateSQLVersFrancais($sem->Debut);
 			$fin = dateSQLVersFrancais($sem->Fin);

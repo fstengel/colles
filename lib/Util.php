@@ -218,5 +218,65 @@ function normaliseDateTimeVersJour($date, $jour) {
 	return $dtn;
 }
 
+/**
+ * Détermine la page par défaut. C'est simple si l'utilisateur a une nature unique Sinon l'ordre d'importance est Admin>>Prof>>Responsable
+ *
+ * @param int $nature=-1 est -1 on prend la nature de l'utilisateur, sinon c'est $nature qui sera utilisée.
+ *
+ * @return string la page par défaut.
+ *
+ * REMARQUE Cette question ainsi que la suivante : à déplacer vers Design.php ?
+ */
+
+function pageParDefaut($nature=-1) {
+	global $session;
+	
+	$util = $session->lUtilisateur();
+	if ($nature==-1) {
+		$nature = $util->Nature;
+	}
+	
+	if ($nature & Admin) {
+		$url = defautAdmin;
+		return $url;
+	}
+	if ($nature & Prof) {
+		$url = defautProf;
+		return $url;
+	}
+	if ($nature == Eleve) {
+		$url = defautEleve;
+		return $url;
+	}
+	if ($nature == Responsable) {
+		$url = defautResponsable;
+		return $url;
+	}
+	return racineSite;
+}
+
+/**
+ * Procède à la redirection vers la page de départ d'un type d'utilisateur
+ *
+ * @param int $nature=-1 est -1 on prend la nature de l'utilisateur, sinon c'est $nature qui sera utilisée.
+ *
+ * @return void
+ */
+function redirection($nature=-1) {
+	global $session;
+	
+	$util = $session->lUtilisateur();
+	if ($nature==-1) {
+		$nature = $util->Nature;
+	}
+	// Pour pouvoir lire le message de redirection passer cette durée à >0...
+	$duree = 0;
+
+	$page = pageParDefaut($nature);
+	$url = racineSite.$page;
+	echo "<p>Redirection dans $duree(s) vers $page</p>";
+	echo "<meta http-equiv=\"Refresh\" content=\"$duree; url=$url\">";
+	return;
+}
 
 ?>

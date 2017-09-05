@@ -2,7 +2,7 @@
 /**
  * 
  * @author Frank STENGEL
- * @version 1.0 2017-09-02
+ * @version 1.1 2017-09-05
  *
  */
 
@@ -28,6 +28,16 @@ if ($ok!=VALIDE) {
 require_once(libPath()."LibSemaines.php");
 require_once(libPath()."LibNotes.php");
 
+/**
+ * Crée le popup (select) HTML pour choisir la classe/matière
+ *
+ * @param array(array) $lesResponsables la liste des reponsables/idColloscopes concernés
+ * @param int|string $no le numéro ou id de la ligne sélectionnée
+ * @param boolean $idPop vrai si $no est l'id
+ * @param string $form="formSemaines" le nom du formulaire
+ *
+ * @return string le code HTML du <select....
+ */
 function popupClasseMatiere($lesResponsables, $no=-1, $idPop=False, $form="formSemaines") {
 	global $session;
 	global $accesDB;
@@ -91,10 +101,24 @@ function popupClasseMatiere($lesResponsables, $no=-1, $idPop=False, $form="formS
 	return $pop;
 }
 
+/**
+ * @deprecated
+ *
+ * Pour debug.
+ */
 function afficherNotes($semaines, $idColl, $matiere) {
 	echo HTMLPourAfficherNotes($semaines, $idColl, $matiere);
 }
 
+/**
+ * Produit le code pour afficher les notes d'un colloscope dans une matière. Organisé par nom d'élève.
+ *
+ * @param array(array) $semaines le tableau des semaines concernées
+ * @param int $idColl l'id du colloscope
+ * @param int $matiere l'id de la matiere
+ *
+ * @return le code HTML du tableau
+ */
 function HTMLPourAfficherNotes($semaines, $idColl, $matiere) {
 	global $accesDB;
 	
@@ -103,6 +127,9 @@ function HTMLPourAfficherNotes($semaines, $idColl, $matiere) {
 	}
 	$idSemaines = listeIDSemaines($semaines);
 	
+	$req = "SELECT Nom FROM ".PrefixeDB."Matiere WHERE id_matiere=$matiere";
+	$res = $accesDB->ExecRequete($req);
+	$nomMatiere = ($accesDB->ObjetSuivant($res))->Nom;
 	$req = "SELECT nom FROM ".PrefixeDB."Division JOIN ".PrefixeDB."IdColloscope ON id_division=division WHERE id=$idColl";
 	$res = $accesDB->ExecRequete($req);
 	$nomClasse = ($accesDB->ObjetSuivant($res))->nom;
@@ -132,7 +159,7 @@ function HTMLPourAfficherNotes($semaines, $idColl, $matiere) {
 	//print_r($semaines); echo "<BR>";
 	$t = new Template(tplPath());
 	$t-> set_filenames(array('liste'=>'listeNotesResponsable.tpl'));
-	$t->assign_vars(array('classe'=>$nomClasse));
+	$t->assign_vars(array('classe'=>"$nomClasse - $nomMatiere"));
 	foreach ($semaines as $i=>$semaine) {
 		$t->assign_block_vars('semaine', array('Nom'=>$semaine['Nom']));
 	}
@@ -156,6 +183,8 @@ function HTMLPourAfficherNotes($semaines, $idColl, $matiere) {
 
 /**
  * @deprecated
+ *
+ * Code Mort
  */
 function listerMesNotesDesSemaines($semaines) {
 	global $session;
@@ -192,6 +221,17 @@ function listerMesNotesDesSemaines($semaines) {
 	$t->pparse('liste');
 }
 
+/**
+ * Liste les notes pour tous les couples (classe,matiere) de la semaine $debut à la semaine $fin.
+ *
+ * @param int $debut le numero ou l'id de la semaine de début. 0=la première. -1=la dernière semaine
+ * @param int $fin le numero ou l'id de la semaine de fin. -1=la dernière semaine
+ * @param int $classe Soit le numero d'ordre dans le popup, soit -1 pour dire tous les couples, soit la chaîne "idColl,classe"
+ * @param boolean $afficher=True Si vrai affiche le formulaire de choix puis les notes, sinon n'affiche que le formulaire
+ * @param boolean $idPop=False Si vrai les tropis premiers paramètres sont des id.
+ *
+ * @return void
+ */
 function listerMesNotesChoixDesSemaines($debut=0, $fin=-1, $classe=-1, $afficher=True, $idPop=False) {
 	global $session;
 	global $accesDB;
@@ -273,6 +313,11 @@ function listerMesNotesChoixDesSemaines($debut=0, $fin=-1, $classe=-1, $afficher
 	}
 }
 
+/**
+ * @deprecated
+ *
+ * Pour debug
+ */
 function infos() {
 	global $session;
 	global $accesDB;
@@ -304,6 +349,13 @@ function infos() {
 	
 }
 
+/**
+ * Liste les notes
+ *
+ * @param string $quand indique quoi aficher. "", "cettte" : cette semaine, "une" (deprecated) , "toutes" pour les afficher toutes.
+ *
+ * @return void
+ */
 function listerNotes($quand) {
 	switch ($quand) {
 		case "":
@@ -322,6 +374,13 @@ function listerNotes($quand) {
 	}
 }
 
+/**
+ * Filtre les notes
+ *
+ * @param string $quand N'a aucune influence. Est là pour des raisons d'uniformité.
+ *
+ * @return void
+ */
 function filtrerNotes($quand) {
 	$debut = $_POST['popDebut'];
 	$fin = $_POST['popFin'];
@@ -332,6 +391,11 @@ function filtrerNotes($quand) {
 	listerMesNotesChoixDesSemaines($debut, $fin, $classe, True, True);
 }
 
+/**
+ * Aiguille en fonction de $_GET
+ *
+ * @return void
+ */
 function main() {
 	global $session;
 	global $accesDB;

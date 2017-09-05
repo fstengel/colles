@@ -29,6 +29,11 @@ if ($ok!=VALIDE) {
 
 require_once(libPath()."LibSemaines.php");
 
+/**
+ * Détermine l'id du (seul) colloscope auquel j'ai accès
+ *
+ * @return int l'id de mon colloscope
+ */
 function monIdColloscope() {
 	global $session;
 	global $accesDB;
@@ -48,6 +53,13 @@ function monIdColloscope() {
 	return $monIdColl;
 }
 
+/**
+ * Produit le code HTML des colles de cette semaine (s'il y en a)
+ *
+ * Utilise le template listeCollesEleve.tpl
+ *
+ * @return string le code HTML.
+ */
 function HTMLMesCollesCetteSemaine() {
 	global $session;
 	global $accesDB;
@@ -82,6 +94,9 @@ function HTMLMesCollesCetteSemaine() {
 	return $t->HTML_for_handle('liste');	
 }
 
+/**
+ * @deprecated Pour debug !
+ */
 function mesCollesCetteSemaine() {
 	$code = HTMLMesCollesCetteSemaine();
 	echo $code;
@@ -160,7 +175,15 @@ function infos() {
 	
 	
 }
-
+/**
+ * Produit le code HTML de la liste de semaines passées en argument.
+ *`
+ * Utilise le template listeNotesEleve.tpl
+ *
+ * @param array(array()) liste des semaines tirées de la table Semaines.
+ *
+ * @return string le code HTML produit.
+ */
 function HTMLMesNotesDesSemaines($lesSemaines) {
 	global $session;
 	global $accesDB;
@@ -230,6 +253,14 @@ function HTMLMesNotesDesSemaines($lesSemaines) {
 	return $code;
 }
 
+/**
+ * Produit le code HTML du formulaire permettant d'afficher et de choisir les notes de semaines.
+ * @param int $debut=0 le no ou l'id de la colle de début. -1 si dernière accessible.
+ * @param int $fin=-1 le no ou l'id de la colle de fin. -1 si dernière accessible.
+ * @param boolean $idPop=False si vrai les paramètre $debut et $fin sont des id de semaines.
+ *
+ * @return string le code HTML produit
+ */
 function HTMLMesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
 	global $session;
 	global $accesDB;
@@ -280,16 +311,23 @@ function HTMLMesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
 	return $html;
 }
 
+/**
+ * @deprecated
+ * Code mort... gardé pour histoire. À commenter !
+ */
+/*
 function mesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
 	$code = HTMLMesNotesChoixSemaine($debut, $fin, $idPop);
 	echo $code;
 }
+*/
 
 /**
  * @deprecated
  * @see mesNotesChoixSemaine, HTMLMesNotesChoixSemaine
  * va disparaître au profit de mesNotesChoixSemaine, HTMLMesNotesChoixSemaine
  */
+/*
 function toutesMesNotes() {
 	global $session;
 	global $accesDB;
@@ -299,10 +337,12 @@ function toutesMesNotes() {
 	$code = HTMLMesNotesChoixSemaine();
 	echo $code;
 }
+*/
 /**
  * @deprecated
- * Code mort
+ * Code mort. À commenter.
  */
+/*
 function toutesMesNotesOLD() {
 	global $session;
 	global $accesDB;
@@ -386,7 +426,19 @@ function toutesMesNotesOLD() {
 	}
 	$t->pparse('liste');
 }
+*/
 
+/**
+ * Fabrique le coeur de la page pour un élève.
+ *
+ * À savoir : les colles de cette semaine puis un formulaire pour lister les notes des semaines passées.
+ * 
+ * @param int $debut=0 le no ou l'id de la colle de début. -1 si dernière accessible.
+ * @param int $fin=-1 le no ou l'id de la colle de fin. -1 si dernière accessible.
+ * @param boolean $idColl=False si vrai les paramètre $debut et $fin sont des id de semaines.
+ *
+ * @return void
+ */
 function page($debut=0, $fin=-1, $idColl=False) {
 	global $session;
 	global $accesDB;
@@ -402,6 +454,13 @@ function page($debut=0, $fin=-1, $idColl=False) {
 	$t->pparse('page');
 }
 
+/**
+ * Liste les notes
+ *
+ * @param string $quand indique quoi aficher. "", "cettte" : cette semaine, "toutes" pour les afficher toutes.
+ *
+ * @return void
+ */
 function listerNotes($quand) {
 	switch ($quand) {
 		case "":
@@ -416,6 +475,13 @@ function listerNotes($quand) {
 	}
 }
 
+/**
+ * Filtre les notes
+ *
+ * @param string $quand N'a aucune influence. Est là pour des raisons d'uniformité.
+ *
+ * @return void
+ */
 function filtrerNotes($quand) {
 	// Debug
 	//print_r($_POST); echo "<BR>";
@@ -425,6 +491,11 @@ function filtrerNotes($quand) {
 	page($debut, $fin, True);
 }
 
+/**
+ * Aiguille en fonction de $_GET
+ *
+ * @return void
+ */
 
 function main() {
 	global $session;
