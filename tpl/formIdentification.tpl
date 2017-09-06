@@ -3,8 +3,10 @@
 		<TR>
 			<TD>
 				<form  method='POST' action='{script}' name='Form'>
-					{msg}
 					<table >
+						<tr>
+							<td colspan="2">{msg}</td>
+						</tr>
 						<tr>
 							<td><b>Votre login</b></td>
 							<td><input type='text' name="login" value="{login}" size='30' maxlength='30' ></td>

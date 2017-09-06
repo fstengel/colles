@@ -39,8 +39,6 @@ function main() {
 
 entete("Gestion des Oraux &mdash; PC Fabert 2009 &mdash; Test mail");
 
-
-
 menu($session,$accesDB);
 
 main();

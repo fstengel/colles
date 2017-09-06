@@ -2,7 +2,11 @@
 	<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
 		<tbody>
 			<tr class='header' style="text-align:center; vertical-align:top;">
-				<th style="width: 5em; vertical-align:middle; visibility:hidden;"><input name="filtrer" value="Filtrer" type="submit" style="visibility:hidden;"><input name="status" value="listePersonnes" type="hidden"></th>
+				<th style="width: 5em; vertical-align:middle; visibility:hidden;">
+					<input name="filtrer" value="Filtrer" type="submit" style="visibility:hidden;">
+					<input name="status" value="listePersonnes" type="hidden">
+					<input name="page" value="{page}" type="hidden">
+				</th>
 				<th style="width: 5em;">Nom</th>
 				<th style="width: 5em;">Pr&eacute;nom</th>
 				<th style="width: 4em;">Mail</th>
@@ -34,10 +38,15 @@
 	<table style="width:100%;">
 		<tbody>
 			<tr class='empty' style="text-align:center; vertical-align:middle;">
-				<th style="width: 4em; vertical-align:middle; height:2em;"><input name="valid" value="Modifier" type="submit"></th>
+				<th style="width: 4em; vertical-align:middle; height:2em; text-align:left;"><input name="valid" value="Modifier" type="submit"></th>
 				<th style="font-weight:normal; text-align:left;"> les personnes s&eacute;lectionn&eacute;es</th>
 				<th style="font-weight:normal; text-align:right;">Pour supprimer : cocher des deux c&ocirc;t&eacute;s</th>
-				<th style="width: 5em; vertical-align:middle; height:2em;"><input name="valid" value="Supprimer" type="submit"></th>
+				<th style="width: 5em; vertical-align:middle; height:2em;  text-align:right;"><input name="valid" value="Supprimer" type="submit"></th>
+			</tr>
+			<tr class='empty' style="text-align:center; vertical-align:middle; visibility:hidden;">
+				<th style="width: 4em; vertical-align:middle; height:2em; text-align:left;"><input name="precedent" value="Pr&eacute;c&eacute;dente" type="submit"></th>
+				<th style="font-weight:normal; text-align:center;" colspan="2"> Personnes de {premiere} &agrave; {derniere} sur {nbPersonnes}</th>
+				<th style="width: 5em; vertical-align:middle; height:2em;  text-align:right;"><input name="suivant" value="Suivante" type="submit"></th>
 			</tr>
 		</tbody>
 	</table>

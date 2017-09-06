@@ -171,7 +171,7 @@ function actionListeResponsables() {
 }
 
 function main() {
-	echo "<HR>\n";
+	// echo "<HR>\n";
 	actionListeResponsables();
 	
 }

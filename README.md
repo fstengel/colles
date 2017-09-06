@@ -6,23 +6,29 @@ Un petit site pour gérer les colles d'une classe de seconde année.
 
 ### Prérequis (logiciels)
 
-Par plateforme. Les solutions présentées sont des exemples.
+Il est nécessaire de disposer d'une solution donnant
+
+1. Un serveur web
+2. Un interpréteur PHP
+3. Un modteur de bases de données MySQL
+
+Généralement un paquet complet combine ces trois groupes de logiciels. Par plateforme et par exemple nous avons : 
 
 * Mac : MAMP (www.mamp.info)
 * Windows : WampServer (www.wampserver.com)
-* Linux : ben, normalement c'est livré avec...
+* Linux : ben, normalement c'est livré avec et si vous êtes sur un pingouin vous devriez savoir comment faire ;-p...
 
 ### Prérequis (connaissances)
 
 * Savoir utiliser phpMyAdmin pour importer une base.
-* Savoir mettre en place un site sous apache.
+* Savoir mettre en place un site sous apache (ou autre serveur web).
 * Savoir jouer avec GitHub.
 
 ### Installation
 
 1. Démarrer votre serveur apache/mySQL
 2. Télécharger le site depuis GitHub (normalement vous y êtes !) sous forme d'archive .zip. C'est le bouton vert (`clone or download`) option `Download ZIP`
-3. Décompresser l'archive (a priori `colles-master.zip`) contenant le dossier complet dans le répertoire racine du serveur web (d'habitude `htdocs`)
+3. Décompresser l'archive (a priori `colles-master.zip`) contenant le dossier complet dans le répertoire racine du serveur web (`htdocs` chez apache)
 4. Renommer le dossier de `colles-master` en `colles`
 2. importer le fichier `sql/Colles-Structure+Donnees.sql` dans votre base de données
 
@@ -34,7 +40,7 @@ Essayez avec 4 utilisateurs *sans mot de passe* (!) :
 
 * `fstengel` qui est admin, responsable et prof. Attenttion, importer des CSV risque de détruire les données déjà présentes. Ceci dit : on ré-importe la BDD et hop !
 * `pgirault` qui est prof
-* `imartin` qui est responsable
+* `imartin` qui est responsable et prof
 * `jelgato` qui est élève
 
 Avec un peu de nez on peut trouver d'autres utilisateurs avec leur rôle en utilisant l'admin pour regarder les personnes.

@@ -58,16 +58,17 @@ if (($etat==INVALIDE) && isset($_POST['login'])) {
 }
 
 if ($etat==INVALIDE) {
+	// Debug
 	//echo "<B>Invalide</B> tentative de connexion...<BR>";
 	switch ($session->lErreurSession()) {
 		case FALSE:
-			$msg = "<B>Vous n'&ecirc;tes pas connect&eacute;</B>\n";
+			$msg = "Vous n'&ecirc;tes pas connect&eacute;";
 			break;
 		case MotDePasseIncorrect:
-			$msg = "<B>Votre mot de passe est incorrect</B>\n";
+			$msg = "Votre mot de passe est incorrect";
 			break;
 		case LoginIncorrect:
-			$msg = "<B>Nom d'utilisateur inconnu</B>\n";
+			$msg = "Nom d'utilisateur inconnu";
 			break;
 	}
 	if (isset($login))

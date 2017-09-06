@@ -104,7 +104,7 @@ function mesCollesCetteSemaine() {
 
 /**
  * @deprecated
-* DEBUG ?
+* DEBUG ? À tuer ?
  */
 function infos() {
 	global $session;
@@ -133,26 +133,10 @@ function infos() {
 	$monIdColl = monIdColloscope();
 	echo "Mon id Colloscope : $monIdColl<BR>";
 
-	/*
-	$req = "select * from ".PrefixeDB."Groupement as G where idColloscope=$monIdColl and Eleve=$idMoi";
-	$res = $accesDB->ExecRequete($req);
-	$mesGroupes = $accesDB->ToutesLesLignes($res);
-	// Debug
-	//print_r($mesGroupes); echo "<BR>";
-	*/
-	
 	$sem = cetteSemaine();
 	$idSem = $sem->id_semaine;
 	echo "Cette semaine id : $idSem<BR>";
-	
-	/* @obsolete
-	$req = "select * from ".PrefixeDB."Colle as C join ".PrefixeDB."Groupement as G on C.idColloscope=G.idColloscope and C.Groupe=G.Groupe where G.idColloscope=$monIdColl and Eleve=$idMoi and C.Semaine=$idSem";
-	$res = $accesDB->ExecRequete($req);
-	$mesColles = $accesDB->ToutesLesLignes($res);
-	// Debug
-	//print_r($mesColles); echo "<BR>";
-	*/
-	
+		
 	$req = "SELECT Personne, P.Nom, Prenom, Civilite, Intervenant, id_matiere, M.Nom as Matiere, id_Crenau, C.idColloscope, Jour, Lieu, Debut, Fin FROM ".PrefixeDB."Personne as P join ".PrefixeDB."Intervenant on id_personne=Personne
 		join ".PrefixeDB."Crenau on Intervenant=id_intervenant join ".PrefixeDB."Matiere as M on id_Matiere=Matiere 
 		join ".PrefixeDB."Colle as C on C.Crenau=id_Crenau join ".PrefixeDB."Groupement as G on C.Groupe=G.Groupe and C.idColloscope=G.idColloscope
@@ -311,122 +295,6 @@ function HTMLMesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
 	return $html;
 }
 
-/**
- * @deprecated
- * Code mort... gardé pour histoire. À commenter !
- */
-/*
-function mesNotesChoixSemaine($debut=0, $fin=-1, $idPop=False) {
-	$code = HTMLMesNotesChoixSemaine($debut, $fin, $idPop);
-	echo $code;
-}
-*/
-
-/**
- * @deprecated
- * @see mesNotesChoixSemaine, HTMLMesNotesChoixSemaine
- * va disparaître au profit de mesNotesChoixSemaine, HTMLMesNotesChoixSemaine
- */
-/*
-function toutesMesNotes() {
-	global $session;
-	global $accesDB;
-	
-	//$lesSemaines = semainesJusquAAujourdhui();
-	//$code = HTMLMesNotesDesSemaines($lesSemaines);
-	$code = HTMLMesNotesChoixSemaine();
-	echo $code;
-}
-*/
-/**
- * @deprecated
- * Code mort. À commenter.
- */
-/*
-function toutesMesNotesOLD() {
-	global $session;
-	global $accesDB;
-	
-	$moi = $session->utilisateur;
-	$idMoi = $moi->id_personne;
-	$monIdColl = monIdColloscope();	
-	
-	$req = "SELECT * From Colles_Matiere ORDER BY Nom";
-	$res = $accesDB->ExecRequete($req);
-	$lesMatieres = $accesDB->ToutesLesLignes($res);
-	$lesMatieresParId = array();
-	foreach ($lesMatieres as $i=>$matiere) {
-		$id = $matiere['id_matiere'];
-		$matiereParId[$id] = $matiere;
-	}
-
-	$lesSemaines = semainesJusquAAujourdhui();
-	$lesIdSemaines = listeIDSemaines($lesSemaines);
-	$lesSemainesParId = array();
-	foreach ($lesSemaines as $i=>$semaine) {
-		$id = $semaine['id_semaine'];
-		$lesSemainesParId[$id] = $semaine;
-	}
-
-	$req = "SELECT C.Semaine, Matiere, Valeur from Colles_Personne as P Join Colles_Groupement as G  on id_personne=Eleve 
-		join Colles_Note as N on N.Groupement=G.id_groupement Join Colles_Colle as C on N.Colle=C.id_colle join Colles_Crenaucomplet as Cr on Cr.id_crenau=C.Crenau 
-		where Semaine in $lesIdSemaines and G.idColloscope=$monIdColl and P.id_personne=$idMoi";
-	echo "$req<BR>";
-	$res = $accesDB->ExecRequete($req);
-	$mesNotes = $accesDB->ToutesLesLignes($res);
-	//print_r($mesNotes); echo "<BR>";
-	
-	$tableauNotes = array();
-	foreach ($lesMatieres as $i=>$matiere) {
-		$id = $matiere['id_matiere'];
-		$tableauNotes[$id] = array();
-	}
-	foreach ($mesNotes as $i=>$note) {
-		$sem = $note['Semaine'];
-		$mat = $note['Matiere'];
-		$val = $note['Valeur'];
-		$tableauNotes[$mat][$sem] = $val;
-	}
-	//print_r($tableauNotes); echo "<BR>";
-	foreach ($lesMatieres as $i=>$matiere) {
-		$nom = $matiere['Nom'];
-		$mat = $matiere['id_matiere'];
-		echo "$nom ($mat) : ";
-		$notes = $tableauNotes[$mat];
-		foreach ($lesSemaines as $semaine) {
-			$sem = $semaine['id_semaine'];
-			if (array_key_exists($sem, $notes)) {
-				$note = parseValeur($notes[$sem]);
-				echo "$note ($sem)  ";
-			}
-		}
-		echo "<BR>";
-	}
-	$t = new Template(tplPath());
-	$t-> set_filenames(array('liste'=>'listeNotesEleve.tpl'));
-	foreach ($lesSemaines as $i=>$semaine) {
-		$t->assign_block_vars('semaine', array('Nom'=>$semaine['Nom']));
-	}
-	foreach ($lesMatieres as $i=>$matiere) {
-		$nom = $matiere['Nom'];
-		$mat = $matiere['id_matiere'];
-		if ($i%2) $matiere['eo']='odd'; else $matiere['eo']='even';
-		$t->assign_block_vars('ligne',$matiere);
-		$notes = $tableauNotes[$mat];
-		foreach ($lesSemaines as $j=>$semaine) {
-			$sem = $semaine['id_semaine'];
-			if (array_key_exists($sem, $notes)) {
-				$note = parseValeur($notes[$sem]);
-			} else {
-				$note = "";
-			}
-			//echo "$i, $id, $note<BR>";
-			$t->assign_block_vars('ligne.note',array('Valeur'=>$note));
-		}
-	}
-	$t->pparse('liste');
-}
-*/
 
 /**
  * Fabrique le coeur de la page pour un élève.
@@ -530,20 +398,6 @@ function main() {
 entete("Gestion des Colles &mdash; PC Fabert ".Annee." (lire CSV)");
 
 menu($session,$accesDB);
-
-/** 
-* @todo  Améliorer le template
-*/
-if (($session->identifie) && ($session->motDePasseAChanger)) {
-	//print_r($session);
-	$t = new Template(tplPath());
-	$t->set_filenames(array('mess'=>"message.tpl"));
-	$mess = "Il FAUT changer le mot de passe !";
-	$t->assign_vars(array('message'=>$mess));
-	$t->pparse('mess');
-}
-
-
 
 main();
 

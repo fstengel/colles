@@ -39,13 +39,13 @@ function menu($session, $accesDB) {
 			//echo "menu dans le cas (non) connect&eacute;<BR>\n";
 			switch ($session->lErreurSession()) {
 				case FALSE:
-					$msg = "<B>Vous n'&ecirc;tes pas connect&eacute;</B>\n";
+					$msg = "Vous n'&ecirc;tes pas connect&eacute;";
 					break;
 				case MotDePasseIncorrect:
-					$msg = "<B>Votre mot de passe est incorrect</B>\n";
+					$msg = "Votre mot de passe est incorrect";
 					break;
 				case LoginIncorrect:
-					$msg = "<B>Nom d'utilisateur inconnu</B>\n";
+					$msg = "Nom d'utilisateur inconnu";
 					break;
 			}
 			echo "<HR>\n";
@@ -123,6 +123,38 @@ function menu($session, $accesDB) {
 			}
 			$t->pparse('menu');
 			break;
+	}
+	verifierQualiteMotDePasse();
+}
+
+/**
+ * Vérifie le type du mot de passe et affiche un message s'il et nécessaire de le changer.
+ *
+ * @todo Améliorer le template
+ *
+ * @return void
+ */
+function verifierQualiteMotDePasse() {
+	global $session;
+	
+	if (($session->identifie) && ($session->motDePasseAChanger)) {
+		//print_r($session);
+		$t = new Template(tplPath());
+		$t->set_filenames(array('mess'=>"message.tpl"));
+		switch ($session->typeMotDePasse) {
+			case mdpInconnu:
+			$extra = "erreur de la base de données";
+			break;
+			case mdpVide:
+			$extra = "mot de passe vide";
+			break;
+			case mdpClair:
+			$extra = "mot de passe en clair";
+			break;
+		}
+		$mess = "Il FAUT changer le mot de passe : $extra.";
+		$t->assign_vars(array('message'=>$mess));
+		$t->pparse('mess');
 	}
 }
 

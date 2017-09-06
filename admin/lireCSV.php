@@ -288,18 +288,6 @@ entete("Gestion des Colles &mdash; PC Fabert ".Annee." (lire CSV)");
 
 menu($session,$accesDB);
 
-/** 
-* @todo  Améliorer le template
-*/
-if (($session->identifie) && ($session->motDePasseAChanger)) {
-	//print_r($session);
-	$t = new Template(tplPath());
-	$t->set_filenames(array('mess'=>"message.tpl"));
-	$mess = "Il FAUT changer le mot de passe !";
-	$t->assign_vars(array('message'=>$mess));
-	$t->pparse('mess');
-}
-
 main();
 
 piedDePage();

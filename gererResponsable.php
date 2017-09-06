@@ -182,46 +182,6 @@ function HTMLPourAfficherNotes($semaines, $idColl, $matiere) {
 }
 
 /**
- * @deprecated
- *
- * Code Mort
- */
-function listerMesNotesDesSemaines($semaines) {
-	global $session;
-	global $accesDB;
-	
-	if (count($semaines)==0) {
-		return;
-	}
-	$moi = $session->utilisateur;
-	$monId = $moi->id_personne;
-	$annee = cetteAnnee()."-01-01";
-	$req = "SELECT * FROM ".PrefixeDB."Responsable AS R JOIN ".PrefixeDB."IdColloscope AS IC ON R.Division=IC.division WHERE Personne=$monId AND IC.annee='$annee'";
-	//echo "$req<BR>";
-	$res = $accesDB->ExecRequete($req);
-	$lesResponsables = $accesDB->ToutesLesLignes($res);
-	// Passer ça en Template ?
-	$t = new Template(tplPath());
-	$t->set_filenames(array('liste'=>'formSemainesResponsable.tpl'));
-	$t->assign_vars(array('classe'=>'', 'debut'=>'', 'fin'=>'') );
-	//echo '<div class="blockTable">';
-	foreach ($lesResponsables as $i=>$responsable) {
-		//print_r($responsable); echo "<BR>";
-		$matiere = $responsable['Matiere'];
-		$idColl = $responsable['id'];
-		//echo '<div class="innerTable">';
-		// Récupérer le HTML plutot...
-		$code = HTMLPourAfficherNotes($semaines, $idColl, $matiere);
-		$t->assign_block_vars('notes', array('classe'=>$code) );
-		//echo $code;
-		//echo "</div>";
-		//echo " ";
-	}
-	//echo "</div>";
-	$t->pparse('liste');
-}
-
-/**
  * Liste les notes pour tous les couples (classe,matiere) de la semaine $debut à la semaine $fin.
  *
  * @param int $debut le numero ou l'id de la semaine de début. 0=la première. -1=la dernière semaine
@@ -431,20 +391,6 @@ function main() {
 entete("Gestion des Colles &mdash; PC Fabert ".Annee." (lire CSV)");
 
 menu($session,$accesDB);
-
-/** 
-* @todo  Améliorer le template
-*/
-if (($session->identifie) && ($session->motDePasseAChanger)) {
-	//print_r($session);
-	$t = new Template(tplPath());
-	$t->set_filenames(array('mess'=>"message.tpl"));
-	$mess = "Il FAUT changer le mot de passe !";
-	$t->assign_vars(array('message'=>$mess));
-	$t->pparse('mess');
-}
-
-
 
 main();
 

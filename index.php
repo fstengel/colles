@@ -18,51 +18,6 @@ require(libPath()."Session.php");
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
 
-/**
- * @deprecated
- *
- * Code Mort. Commenté. À couper. Gardé pour l'instant : debug !
- */
-/*
-function redirectionOLD() {
-	global $session;
-	
-	$util = $session->lUtilisateur();
-	// Pour pouvoir lire le message de redirection passer cette durée à >0...
-	$duree = 0;
-
-	if ($util->Nature & Admin) {
-		// Modifier pour redirection immédiate !
-		echo "<p>Admin : redirection dans $duree(s) vers admin/index</p>";
-		//echo '<meta http-equiv="Refresh" content="0; url='.racineSite.'admin/index.php">';
-		$url = racineSite.defautAdmin;
-		echo "<meta http-equiv=\"Refresh\" content=\"$duree; url=$url\">";
-		return;
-	}
-	if ($util->Nature & Prof) {
-		echo "<p>Prof : redirection dans $duree(s) vers gererProf</p>";
-		//echo '<meta http-equiv="Refresh" content="0; url='.racineSite.'gererProf.php?action=lister&quand=cette">';
-		$url = racineSite.defautProf;
-		echo "<meta http-equiv=\"Refresh\" content=\"$duree; url=$url\">";
-		return;
-	}
-	if ($util->Nature == Eleve) {
-		echo "<p>Vous êtes un eleve... On va rediriger vers la page idoine dans $duree(s)...</p>";
-		//echo '<meta http-equiv="Refresh" content="0; url='.racineSite.'gererEleve.php?action=lister&quand=cette">';
-		$url = racineSite.defautEleve;
-		echo "<meta http-equiv=\"Refresh\" content=\"$duree; url=$url\">";
-		return;
-	}
-	if ($util->Nature == Responsable) {
-		echo "<p>Prof : redirection dans dans $duree(s) vers gererResponsable</p>";
-		//echo '<meta http-equiv="Refresh" content="0; url='.racineSite.'gererEleve.php?action=lister&quand=cette">';
-		$url = racineSite.defautResponsable;
-		echo "<meta http-equiv=\"Refresh\" content=\"$duree; url=$url\">";
-		return;
-	}	
-}
-*/
-
 entete("Gestion des Colles &mdash; PC Fabert ".Annee);
 
 $etat =  $session->etatSession();
@@ -90,18 +45,6 @@ if (($etat==VALIDE)&&(isset($_POST['logout']))) {
 }
 
 menu($session,$accesDB);
-
-/** 
-* @todo  Améliorer le template
-*/
-if (($etat==VALIDE) && ($session->identifie) && ($session->motDePasseAChanger)) {
-	//print_r($session);
-	$t = new Template(tplPath());
-	$t->set_filenames(array('mess'=>"message.tpl"));
-	$mess = "Il FAUT changer le mot de passe !";
-	$t->assign_vars(array('message'=>$mess));
-	$t->pparse('mess');
-}
 
 //print_r($session); echo "<BR>";
 // Attention fait (partiellement) double emploi avec Design.menu()

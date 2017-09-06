@@ -80,42 +80,6 @@ function listeSQLMesCrenaux() {
 }
 
 /**
- * @deprecated
- * Utilisée par la fct suivante
- * Code Mort
- */
-/*
-function mesCollesUneSemaine($idSem) {
-	global $session;
-	global$accesDB;
-	
-	$idMoi = $session->utilisateur->id_personne;
-	$req = "SELECT $idSem as id_semaine, id_crenau, Cren.idColloscope, Colle.id_colle as id_colle, Jour, Debut, Fin, Lieu, Groupe 
-		FROM ".PrefixeDB."Crenau AS Cren JOIN ".PrefixeDB."Intervenant ON Intervenant=id_intervenant JOIN ".PrefixeDB."Colle as Colle ON id_crenau=Crenau WHERE Personne=$idMoi AND Semaine=$idSem 
-		ORDER BY Jour ASC, Debut ASC";
-	// Debug
-	//echo $req;
-	$res = $accesDB->ExecRequete($req);
-	$colles = $accesDB->ToutesLesLignes($res);
-	return $colles;
-}
-*/
-/**
- * @deprecated
- * Utilisée par la fct suivante
- * Code Mort
- */
-/*
-function mesCollesDesSemainesSeparees($tabSemaines) {
-	$tabColles = array();
-	foreach ($tabSemaines as $sem) {
-		$tabColles[] = mesCollesUneSemaine($sem);
-	}
-	return $tabColles;
-}
-*/
-
-/**
  * Récupère les colles de l'utilisateur des semaines passées en argument
  *
  * @param array(array) $tabSemaines la liste des semaines tirées de la table Semaines
@@ -537,20 +501,6 @@ function main() {
 entete("Gestion des Colles &mdash; PC Fabert ".Annee." (lire CSV)");
 
 menu($session,$accesDB);
-
-/** 
-* @todo  Améliorer le template
-*/
-if (($session->identifie) && ($session->motDePasseAChanger)) {
-	//print_r($session);
-	$t = new Template(tplPath());
-	$t->set_filenames(array('mess'=>"message.tpl"));
-	$mess = "Il FAUT changer le mot de passe !";
-	$t->assign_vars(array('message'=>$mess));
-	$t->pparse('mess');
-}
-
-
 
 main();
 

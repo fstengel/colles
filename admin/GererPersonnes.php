@@ -151,7 +151,7 @@ function actionListePersonnes() {
 
 
 function main() {
-	echo "<HR>\n";
+	//echo "<HR>\n";
 	actionListePersonnes();
 	
 }

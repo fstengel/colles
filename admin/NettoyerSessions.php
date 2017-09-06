@@ -24,6 +24,7 @@ if ($ok!=VALIDE) {
 entete("Netoyage des sessions...");
 
 menu($session,$accesDB);
+
 echo "<HR>\n";
 
 
