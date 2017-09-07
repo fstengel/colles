@@ -1,15 +1,15 @@
-,,,,Semaines,1,2,3,4
-,,,,,14/09,21/09,28/09,05/10
-Jour,Heure,Matière,Colleur,Salle,18/09,25/09,02/10,09/10
-lundi,17-18,Chimie,Curk,S125,1,2,3,4
-lundi,18-19,Chimie,Curk,S125,3,4,5,6
-,,,,,,,,
-mardi,16-17,Anglais,Martin,L13,2,3,4,5
-mardi,16-17,Physique,Baumann,S103,4,5,6,1
-,,,,,,,,
-mercredi,14-15,Physique,Rigaut,T12,2,3,4,5
-,,,,,,,,
-,,,,,,,,
-vendredi,16-17,Maths,Girault,T21,1,2,3,4
-vendredi,16-17,Maths,Stengel,T08,3,4,5,6
-vendredi,15-16,Anglais,Dvorsak,L15,4,5,6,1
+				Semaines	1	2	3	4
+					14/09	21/09	28/09	05/10
+Jour	Heure	Matière	Colleur	Salle	18/09	25/09	02/10	09/10
+lundi	17-18	Chimie	Comel	S125	1	2	3	4
+lundi	18-19	Chimie	Comel	S125	3	4	5	6
+								
+mardi	16-17	Anglais	Moncerf	L13	2	3	4	5
+mardi	16-17	Physique	Bertin	S103	4	5	6	1
+								
+mercredi	14-15	Physique	Ribero	T12	2	3	4	5
+								
+								
+vendredi	16-17	Maths	Garnier	T21	1	2	3	4
+vendredi	16-17	Maths	Stengel	T08	3	4	5	6
+vendredi	15-16	Anglais	Dubcek	L15	4	5	6	1

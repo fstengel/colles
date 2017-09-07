@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:8889
--- Généré le :  Sam 02 Septembre 2017 à 15:15
+-- Généré le :  Jeu 07 Septembre 2017 à 12:08
 -- Version du serveur :  5.6.35
 -- Version de PHP :  7.0.15
 
@@ -13,17 +13,15 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `mydb`
 --
-CREATE DATABASE IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `mydb`;
 
 -- --------------------------------------------------------
 
 --
--- Doublure de structure pour la vue `colles_classe`
+-- Doublure de structure pour la vue `Colles_Classe`
 -- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `colles_classe`;
-CREATE TABLE IF NOT EXISTS `colles_classe` (
+DROP VIEW IF EXISTS `Colles_Classe`;
+CREATE TABLE `Colles_Classe` (
 `Eleve` int(11) unsigned
 ,`Nom` varchar(45)
 ,`Prenom` varchar(45)
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `colles_classe` (
 --
 
 DROP TABLE IF EXISTS `Colles_Colle`;
-CREATE TABLE IF NOT EXISTS `Colles_Colle` (
+CREATE TABLE `Colles_Colle` (
   `id_colle` int(11) UNSIGNED NOT NULL,
   `idColloscope` int(11) UNSIGNED NOT NULL,
   `Semaine` int(11) UNSIGNED NOT NULL,
@@ -47,10 +45,7 @@ CREATE TABLE IF NOT EXISTS `Colles_Colle` (
   `Groupe` varchar(2) COLLATE utf8_bin NOT NULL,
   `Ligne` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   `Colonne` varchar(5) COLLATE utf8_bin DEFAULT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_colle`),
-  KEY `fk_Colle_Crenau_idx` (`Crenau`),
-  KEY `fk_Colle_Semaine_idx` (`Semaine`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -367,7 +362,7 @@ INSERT INTO `Colles_Colle` (`id_colle`, `idColloscope`, `Semaine`, `Crenau`, `Gr
 --
 
 DROP TABLE IF EXISTS `Colles_Crenau`;
-CREATE TABLE IF NOT EXISTS `Colles_Crenau` (
+CREATE TABLE `Colles_Crenau` (
   `id_crenau` int(11) UNSIGNED NOT NULL,
   `idColloscope` int(11) UNSIGNED NOT NULL,
   `Jour` smallint(5) NOT NULL,
@@ -376,9 +371,7 @@ CREATE TABLE IF NOT EXISTS `Colles_Crenau` (
   `Lieu` varchar(45) COLLATE utf8_bin NOT NULL,
   `Intervenant` int(11) UNSIGNED NOT NULL,
   `Ligne` varchar(5) COLLATE utf8_bin DEFAULT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_crenau`),
-  KEY `fk_Crenau_Intervenant_idx` (`Intervenant`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -425,11 +418,11 @@ INSERT INTO `Colles_Crenau` (`id_crenau`, `idColloscope`, `Jour`, `Debut`, `Fin`
 -- --------------------------------------------------------
 
 --
--- Doublure de structure pour la vue `colles_crenaucomplet`
+-- Doublure de structure pour la vue `Colles_CrenauComplet`
 -- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `colles_crenaucomplet`;
-CREATE TABLE IF NOT EXISTS `colles_crenaucomplet` (
+DROP VIEW IF EXISTS `Colles_CrenauComplet`;
+CREATE TABLE `Colles_CrenauComplet` (
 `id_crenau` int(11) unsigned
 ,`id_intervenant` int(11) unsigned
 ,`Jour` smallint(5)
@@ -447,12 +440,11 @@ CREATE TABLE IF NOT EXISTS `colles_crenaucomplet` (
 --
 
 DROP TABLE IF EXISTS `Colles_Division`;
-CREATE TABLE IF NOT EXISTS `Colles_Division` (
+CREATE TABLE `Colles_Division` (
   `id_division` int(11) UNSIGNED NOT NULL,
   `nom` varchar(10) NOT NULL,
   `id_parent` int(11) UNSIGNED DEFAULT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_division`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -483,14 +475,12 @@ INSERT INTO `Colles_Division` (`id_division`, `nom`, `id_parent`, `DerniereModif
 --
 
 DROP TABLE IF EXISTS `Colles_Groupement`;
-CREATE TABLE IF NOT EXISTS `Colles_Groupement` (
+CREATE TABLE `Colles_Groupement` (
   `id_groupement` int(11) UNSIGNED NOT NULL,
   `idColloscope` int(11) UNSIGNED NOT NULL,
   `Groupe` varchar(2) CHARACTER SET utf8 NOT NULL,
   `Eleve` int(11) UNSIGNED NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_groupement`),
-  KEY `fk_Groupement_Eleve_idx` (`Eleve`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -557,14 +547,12 @@ INSERT INTO `Colles_Groupement` (`id_groupement`, `idColloscope`, `Groupe`, `Ele
 --
 
 DROP TABLE IF EXISTS `Colles_IdColloscope`;
-CREATE TABLE IF NOT EXISTS `Colles_IdColloscope` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Colles_IdColloscope` (
+  `id` int(11) UNSIGNED NOT NULL,
   `division` int(11) UNSIGNED NOT NULL,
   `annee` date NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_anneeDivision` (`annee`,`division`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Contenu de la table `Colles_IdColloscope`
@@ -582,13 +570,11 @@ INSERT INTO `Colles_IdColloscope` (`id`, `division`, `annee`, `DerniereModificat
 --
 
 DROP TABLE IF EXISTS `Colles_Intervenant`;
-CREATE TABLE IF NOT EXISTS `Colles_Intervenant` (
+CREATE TABLE `Colles_Intervenant` (
   `id_intervenant` int(11) UNSIGNED NOT NULL,
   `Personne` int(11) UNSIGNED NOT NULL,
   `Matiere` int(11) UNSIGNED NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_intervenant`),
-  KEY `fk_Intervenant_Personne_idx` (`Personne`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -626,21 +612,519 @@ INSERT INTO `Colles_Intervenant` (`id_intervenant`, `Personne`, `Matiere`, `Dern
 --
 
 DROP TABLE IF EXISTS `Colles_Log`;
-CREATE TABLE IF NOT EXISTS `Colles_Log` (
-  `id_log` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Colles_Log` (
+  `id_log` mediumint(8) UNSIGNED NOT NULL,
   `Personne` smallint(5) UNSIGNED NOT NULL,
   `Instant` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Action` enum('login','logout','destroy','clean','wrongPass','unknownUser','error_1') NOT NULL,
-  PRIMARY KEY (`id_log`),
-  KEY `Instant` (`Instant`)
-) ENGINE=MyISAM AUTO_INCREMENT=13270 DEFAULT CHARSET=latin1;
+  `Action` enum('login','logout','destroy','clean','wrongPass','unknownUser','error_1') NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `Colles_Log`
 --
 
 INSERT INTO `Colles_Log` (`id_log`, `Personne`, `Instant`, `Action`) VALUES
-(13269, 1, '2017-09-02 13:05:20', 'logout');
+(12894, 1, '2016-12-08 13:19:39', 'login'),
+(12895, 1, '2016-12-08 13:39:47', 'logout'),
+(12896, 1, '2016-12-08 13:40:00', 'login'),
+(12897, 1, '2016-12-08 13:40:52', 'logout'),
+(12898, 1, '2016-12-08 13:40:56', 'login'),
+(12899, 1, '2016-12-08 13:41:34', 'logout'),
+(12900, 1, '2016-12-08 13:41:45', 'login'),
+(12901, 1, '2016-12-08 13:42:16', 'logout'),
+(12902, 1, '2016-12-08 13:42:18', 'login'),
+(12903, 1, '2016-12-08 13:44:54', 'logout'),
+(12904, 1, '2016-12-08 13:45:12', 'login'),
+(12905, 1, '2016-12-08 13:45:35', 'logout'),
+(12906, 0, '2016-12-08 13:46:16', 'unknownUser'),
+(12907, 1, '2016-12-08 13:46:21', 'login'),
+(12908, 1, '2016-12-08 13:56:32', 'logout'),
+(12909, 1, '2016-12-15 13:42:16', 'login'),
+(12910, 1, '2016-12-15 13:42:19', 'logout'),
+(12911, 1, '2016-12-15 13:45:58', 'login'),
+(12912, 1, '2016-12-15 13:46:04', 'logout'),
+(12913, 1, '2016-12-15 13:57:24', 'login'),
+(12914, 1, '2016-12-15 14:08:34', 'logout'),
+(12915, 1, '2016-12-15 14:08:38', 'login'),
+(12916, 1, '2016-12-15 14:39:54', 'logout'),
+(12917, 1, '2016-12-15 14:39:57', 'wrongPass'),
+(12918, 1, '2016-12-15 14:44:50', 'login'),
+(12919, 1, '2016-12-15 14:45:57', 'logout'),
+(12920, 1, '2016-12-15 14:46:01', 'login'),
+(12921, 1, '2016-12-15 14:52:51', 'logout'),
+(12922, 1, '2016-12-15 14:52:55', 'login'),
+(12923, 1, '2016-12-15 14:58:14', 'logout'),
+(12924, 1, '2016-12-15 14:58:17', 'login'),
+(12925, 1, '2016-12-15 14:59:53', 'logout'),
+(12926, 1, '2016-12-15 14:59:59', 'wrongPass'),
+(12927, 1, '2016-12-15 15:00:49', 'login'),
+(12928, 1, '2016-12-15 15:02:52', 'logout'),
+(12929, 1, '2016-12-15 15:02:58', 'wrongPass'),
+(12930, 1, '2016-12-15 15:04:34', 'login'),
+(12931, 1, '2016-12-15 15:11:43', 'logout'),
+(12932, 1, '2016-12-15 15:11:49', 'wrongPass'),
+(12933, 1, '2016-12-15 15:12:09', 'wrongPass'),
+(12934, 1, '2016-12-15 15:12:22', 'login'),
+(12935, 1, '2016-12-15 15:12:38', 'logout'),
+(12936, 1, '2016-12-15 15:12:45', 'wrongPass'),
+(12937, 1, '2016-12-15 15:14:02', 'wrongPass'),
+(12938, 1, '2016-12-15 15:16:12', 'login'),
+(12939, 1, '2016-12-15 15:16:27', 'logout'),
+(12940, 1, '2016-12-15 15:16:35', 'login'),
+(12941, 1, '2016-12-15 15:17:14', 'logout'),
+(12942, 1, '2016-12-15 15:17:21', 'login'),
+(12943, 1, '2016-12-15 15:17:50', 'logout'),
+(12944, 1, '2016-12-15 15:18:44', 'login'),
+(12945, 1, '2016-12-15 15:18:47', 'logout'),
+(12946, 1, '2016-12-15 15:22:20', 'login'),
+(12947, 1, '2016-12-15 15:23:51', 'logout'),
+(12948, 1, '2016-12-15 15:24:01', 'login'),
+(12949, 1, '2016-12-15 15:24:14', 'logout'),
+(12950, 1, '2016-12-15 15:24:18', 'login'),
+(12951, 1, '2016-12-15 15:24:24', 'logout'),
+(12952, 1, '2016-12-15 15:24:46', 'login'),
+(12953, 1, '2016-12-15 15:25:33', 'logout'),
+(12954, 1, '2016-12-15 15:25:37', 'login'),
+(12955, 1, '2016-12-15 15:32:46', 'logout'),
+(12956, 1, '2016-12-15 17:26:49', 'login'),
+(12957, 1, '2016-12-15 17:50:40', 'logout'),
+(12958, 1, '2017-01-05 16:26:15', 'login'),
+(12959, 1, '2017-01-05 16:26:58', 'logout'),
+(12960, 1, '2017-01-05 16:30:29', 'login'),
+(12961, 1, '2017-01-05 16:30:38', 'logout'),
+(12962, 1, '2017-01-05 16:34:04', 'login'),
+(12963, 1, '2017-01-05 17:02:55', 'logout'),
+(12964, 0, '2017-01-12 13:32:28', 'unknownUser'),
+(12965, 1, '2017-01-12 13:32:33', 'login'),
+(12966, 1, '2017-01-12 14:30:57', 'logout'),
+(12967, 1, '2017-02-23 14:14:33', 'login'),
+(12968, 1, '2017-02-23 14:17:41', 'logout'),
+(12969, 1, '2017-02-23 14:18:27', 'login'),
+(12970, 1, '2017-02-23 14:18:34', 'logout'),
+(12971, 1, '2017-02-23 14:23:21', 'login'),
+(12972, 1, '2017-02-23 14:23:44', 'logout'),
+(12973, 1, '2017-02-23 14:31:50', 'login'),
+(12974, 1, '2017-02-23 14:32:45', 'logout'),
+(12975, 1, '2017-02-23 14:32:48', 'login'),
+(12976, 1, '2017-02-23 14:36:21', 'logout'),
+(12977, 1, '2017-02-23 14:36:25', 'login'),
+(12978, 1, '2017-02-23 14:47:48', 'logout'),
+(12979, 1, '2017-02-23 14:48:25', 'login'),
+(12980, 1, '2017-02-23 14:48:28', 'logout'),
+(12981, 1, '2017-02-23 14:51:32', 'login'),
+(12982, 1, '2017-02-23 14:58:19', 'logout'),
+(12983, 1, '2017-02-23 14:58:23', 'login'),
+(12984, 1, '2017-02-23 14:58:52', 'logout'),
+(12985, 1, '2017-02-23 14:58:56', 'login'),
+(12986, 1, '2017-02-23 15:02:01', 'logout'),
+(12987, 1, '2017-02-23 15:02:04', 'login'),
+(12988, 1, '2017-02-23 15:02:56', 'logout'),
+(12989, 1, '2017-02-23 15:03:22', 'login'),
+(12990, 1, '2017-02-23 15:28:27', 'logout'),
+(12991, 1, '2017-02-23 15:29:45', 'login'),
+(12992, 1, '2017-03-16 12:51:46', 'login'),
+(12993, 1, '2017-03-16 12:52:20', 'logout'),
+(12994, 1, '2017-03-16 12:54:56', 'login'),
+(12995, 1, '2017-03-16 13:32:47', 'clean'),
+(12996, 1, '2017-03-16 13:59:51', 'destroy'),
+(12997, 1, '2017-03-16 13:59:53', 'login'),
+(12998, 1, '2017-03-16 13:59:58', 'logout'),
+(12999, 0, '2017-03-16 14:00:03', 'unknownUser'),
+(13000, 1, '2017-03-16 14:00:08', 'login'),
+(13001, 1, '2017-03-16 15:00:12', 'destroy'),
+(13002, 1, '2017-03-16 15:00:14', 'login'),
+(13003, 1, '2017-03-16 15:28:17', 'logout'),
+(13004, 3, '2017-03-16 15:28:23', 'login'),
+(13005, 3, '2017-03-16 15:28:33', 'logout'),
+(13006, 1, '2017-03-16 15:28:39', 'login'),
+(13007, 1, '2017-03-16 15:29:06', 'logout'),
+(13008, 1, '2017-03-16 15:35:06', 'login'),
+(13009, 1, '2017-03-16 15:44:44', 'logout'),
+(13010, 1, '2017-03-16 15:44:53', 'login'),
+(13011, 1, '2017-03-16 15:48:56', 'logout'),
+(13012, 5, '2017-03-16 15:49:03', 'login'),
+(13013, 5, '2017-03-16 15:53:12', 'logout'),
+(13014, 1, '2017-03-16 15:53:17', 'wrongPass'),
+(13015, 1, '2017-03-16 15:53:22', 'wrongPass'),
+(13016, 1, '2017-03-16 15:53:45', 'login'),
+(13017, 1, '2017-03-16 15:54:25', 'logout'),
+(13018, 1, '2017-03-16 16:03:26', 'login'),
+(13019, 1, '2017-03-16 16:04:11', 'logout'),
+(13020, 1, '2017-03-23 12:33:45', 'login'),
+(13021, 1, '2017-03-23 12:40:18', 'logout'),
+(13022, 1, '2017-03-23 12:40:26', 'login'),
+(13023, 1, '2017-03-23 12:41:40', 'logout'),
+(13024, 1, '2017-05-05 07:51:18', 'login'),
+(13025, 1, '2017-05-05 07:56:52', 'logout'),
+(13026, 1, '2017-05-05 08:01:54', 'login'),
+(13027, 1, '2017-05-05 09:00:26', 'logout'),
+(13028, 1, '2017-05-05 11:31:34', 'login'),
+(13029, 1, '2017-05-05 12:27:37', 'logout'),
+(13030, 1, '2017-08-04 13:44:19', 'login'),
+(13031, 1, '2017-08-04 14:57:15', 'destroy'),
+(13032, 1, '2017-08-04 14:57:17', 'login'),
+(13033, 1, '2017-08-06 15:12:19', 'destroy'),
+(13034, 1, '2017-08-06 15:12:26', 'login'),
+(13035, 1, '2017-08-06 16:17:02', 'destroy'),
+(13036, 1, '2017-08-06 16:17:05', 'login'),
+(13037, 1, '2017-08-06 18:20:33', 'destroy'),
+(13038, 1, '2017-08-06 18:20:35', 'login'),
+(13039, 1, '2017-08-07 07:53:38', 'destroy'),
+(13040, 1, '2017-08-07 07:58:06', 'login'),
+(13041, 1, '2017-08-07 08:04:43', 'logout'),
+(13042, 1, '2017-08-07 08:04:49', 'login'),
+(13043, 1, '2017-08-07 09:06:12', 'destroy'),
+(13044, 1, '2017-08-07 09:06:17', 'login'),
+(13045, 1, '2017-08-07 09:36:12', 'logout'),
+(13046, 3, '2017-08-07 09:36:17', 'login'),
+(13047, 3, '2017-08-07 09:38:21', 'logout'),
+(13048, 1, '2017-08-07 09:38:24', 'login'),
+(13049, 1, '2017-08-07 09:38:52', 'logout'),
+(13050, 3, '2017-08-07 09:38:56', 'login'),
+(13051, 3, '2017-08-08 08:50:45', 'destroy'),
+(13052, 25, '2017-08-08 08:50:50', 'login'),
+(13053, 25, '2017-08-08 08:55:52', 'logout'),
+(13054, 1, '2017-08-08 09:00:14', 'login'),
+(13055, 1, '2017-08-08 09:16:50', 'logout'),
+(13056, 1, '2017-08-08 12:40:01', 'login'),
+(13057, 1, '2017-08-08 13:25:29', 'logout'),
+(13058, 1, '2017-08-09 08:38:24', 'login'),
+(13059, 1, '2017-08-09 08:48:04', 'logout'),
+(13060, 1, '2017-08-09 08:50:44', 'login'),
+(13061, 1, '2017-08-09 09:50:46', 'destroy'),
+(13062, 1, '2017-08-09 09:50:48', 'login'),
+(13063, 1, '2017-08-09 09:54:41', 'logout'),
+(13064, 1, '2017-08-10 08:21:18', 'login'),
+(13065, 1, '2017-08-10 11:57:11', 'destroy'),
+(13066, 1, '2017-08-10 11:57:13', 'login'),
+(13067, 1, '2017-08-10 13:51:53', 'destroy'),
+(13068, 1, '2017-08-10 13:51:55', 'login'),
+(13069, 1, '2017-08-15 08:30:12', 'login'),
+(13070, 1, '2017-08-15 09:31:00', 'destroy'),
+(13071, 1, '2017-08-15 09:31:01', 'login'),
+(13072, 1, '2017-08-15 10:31:15', 'destroy'),
+(13073, 1, '2017-08-15 10:31:17', 'login'),
+(13074, 1, '2017-08-15 10:43:16', 'logout'),
+(13075, 1, '2017-08-15 12:16:00', 'login'),
+(13076, 1, '2017-08-15 13:16:14', 'destroy'),
+(13077, 1, '2017-08-15 13:16:15', 'login'),
+(13078, 1, '2017-08-15 14:24:21', 'destroy'),
+(13079, 1, '2017-08-15 14:24:23', 'login'),
+(13080, 1, '2017-08-16 07:15:15', 'destroy'),
+(13081, 1, '2017-08-16 07:15:25', 'login'),
+(13082, 1, '2017-08-16 07:15:35', 'clean'),
+(13083, 1, '2017-08-16 09:08:51', 'destroy'),
+(13084, 1, '2017-08-16 09:08:53', 'login'),
+(13085, 1, '2017-08-16 11:43:34', 'destroy'),
+(13086, 1, '2017-08-16 11:43:41', 'login'),
+(13087, 1, '2017-08-16 12:44:12', 'destroy'),
+(13088, 1, '2017-08-16 12:44:14', 'login'),
+(13089, 1, '2017-08-16 13:46:48', 'destroy'),
+(13090, 1, '2017-08-16 13:46:50', 'login'),
+(13091, 1, '2017-08-16 15:02:54', 'destroy'),
+(13092, 1, '2017-08-16 15:02:56', 'login'),
+(13093, 1, '2017-08-17 08:42:45', 'destroy'),
+(13094, 1, '2017-08-17 08:42:51', 'login'),
+(13095, 1, '2017-08-17 09:55:21', 'destroy'),
+(13096, 0, '2017-08-18 16:23:12', 'unknownUser'),
+(13097, 1, '2017-08-18 16:23:16', 'login'),
+(13098, 1, '2017-08-18 16:27:35', 'logout'),
+(13099, 1, '2017-08-18 16:31:57', 'login'),
+(13100, 1, '2017-08-18 16:34:43', 'logout'),
+(13101, 1, '2017-08-18 16:50:59', 'login'),
+(13102, 1, '2017-08-18 16:54:16', 'logout'),
+(13103, 1, '2017-08-18 17:03:11', 'login'),
+(13104, 1, '2017-08-18 17:08:29', 'logout'),
+(13105, 1, '2017-08-21 08:59:51', 'login'),
+(13106, 1, '2017-08-21 09:01:33', 'logout'),
+(13107, 70, '2017-08-21 09:01:39', 'login'),
+(13108, 70, '2017-08-21 09:12:35', 'logout'),
+(13109, 1, '2017-08-21 09:12:41', 'login'),
+(13110, 1, '2017-08-21 09:15:45', 'logout'),
+(13111, 70, '2017-08-21 09:15:49', 'login'),
+(13112, 70, '2017-08-21 09:29:48', 'logout'),
+(13113, 1, '2017-08-21 09:29:52', 'login'),
+(13114, 1, '2017-08-21 14:40:42', 'destroy'),
+(13115, 1, '2017-08-21 14:40:44', 'login'),
+(13116, 1, '2017-08-21 14:41:03', 'logout'),
+(13117, 1, '2017-08-21 15:10:46', 'login'),
+(13118, 1, '2017-08-21 15:45:46', 'logout'),
+(13119, 1, '2017-08-21 16:26:57', 'login'),
+(13120, 1, '2017-08-21 16:28:01', 'logout'),
+(13121, 1, '2017-08-22 08:10:56', 'login'),
+(13122, 1, '2017-08-22 08:11:08', 'logout'),
+(13123, 80, '2017-08-22 08:11:12', 'login'),
+(13124, 80, '2017-08-22 08:11:15', 'logout'),
+(13125, 0, '2017-08-22 08:31:02', 'unknownUser'),
+(13126, 80, '2017-08-22 08:31:06', 'login'),
+(13127, 80, '2017-08-22 08:31:11', 'logout'),
+(13128, 1, '2017-08-22 08:31:54', 'login'),
+(13129, 1, '2017-08-22 08:33:08', 'logout'),
+(13130, 1, '2017-08-22 08:34:59', 'login'),
+(13131, 1, '2017-08-22 08:35:24', 'logout'),
+(13132, 1, '2017-08-22 08:41:48', 'login'),
+(13133, 1, '2017-08-22 12:40:19', 'destroy'),
+(13134, 1, '2017-08-22 12:40:19', 'login'),
+(13135, 1, '2017-08-22 13:11:17', 'logout'),
+(13136, 78, '2017-08-22 13:11:23', 'login'),
+(13137, 78, '2017-08-22 13:11:44', 'logout'),
+(13138, 1, '2017-08-22 13:11:49', 'login'),
+(13139, 1, '2017-08-22 13:12:05', 'logout'),
+(13140, 71, '2017-08-22 13:12:11', 'login'),
+(13141, 71, '2017-08-22 13:12:47', 'logout'),
+(13142, 1, '2017-08-22 13:12:51', 'login'),
+(13143, 1, '2017-08-22 13:24:18', 'logout'),
+(13144, 71, '2017-08-22 13:24:25', 'login'),
+(13145, 71, '2017-08-22 13:25:43', 'logout'),
+(13146, 1, '2017-08-22 13:26:50', 'login'),
+(13147, 1, '2017-08-22 13:45:07', 'logout'),
+(13148, 71, '2017-08-22 13:45:11', 'login'),
+(13149, 71, '2017-08-22 13:52:44', 'logout'),
+(13150, 1, '2017-08-22 13:52:48', 'login'),
+(13151, 1, '2017-08-22 13:56:52', 'logout'),
+(13152, 1, '2017-08-22 13:58:36', 'login'),
+(13153, 1, '2017-08-22 14:03:29', 'logout'),
+(13154, 78, '2017-08-22 14:03:33', 'login'),
+(13155, 78, '2017-08-22 14:18:49', 'logout'),
+(13156, 71, '2017-08-22 14:27:40', 'login'),
+(13157, 71, '2017-08-22 14:46:53', 'logout'),
+(13158, 1, '2017-08-22 14:46:56', 'login'),
+(13159, 1, '2017-08-22 14:47:15', 'logout'),
+(13160, 80, '2017-08-22 15:18:38', 'login'),
+(13161, 80, '2017-08-22 15:19:41', 'logout'),
+(13162, 80, '2017-08-22 15:19:46', 'login'),
+(13163, 80, '2017-08-22 17:28:16', 'destroy'),
+(13164, 80, '2017-08-22 17:28:18', 'login'),
+(13165, 80, '2017-08-22 17:47:56', 'logout'),
+(13166, 1, '2017-08-22 17:48:01', 'login'),
+(13167, 1, '2017-08-22 17:49:12', 'logout'),
+(13168, 80, '2017-08-22 17:49:15', 'login'),
+(13169, 80, '2017-08-22 18:16:56', 'logout'),
+(13170, 1, '2017-08-22 20:50:56', 'login'),
+(13171, 1, '2017-08-23 08:56:35', 'destroy'),
+(13172, 1, '2017-08-23 08:56:37', 'login'),
+(13173, 1, '2017-08-23 10:01:10', 'destroy'),
+(13174, 1, '2017-08-23 10:01:13', 'login'),
+(13175, 1, '2017-08-23 11:13:46', 'destroy'),
+(13176, 1, '2017-08-23 11:13:48', 'login'),
+(13177, 1, '2017-08-23 11:19:23', 'logout'),
+(13178, 80, '2017-08-23 11:19:30', 'login'),
+(13179, 80, '2017-08-23 11:20:22', 'logout'),
+(13180, 1, '2017-08-23 11:20:25', 'login'),
+(13181, 1, '2017-08-23 11:21:37', 'logout'),
+(13182, 1, '2017-08-23 11:28:02', 'login'),
+(13183, 1, '2017-08-23 11:28:29', 'logout'),
+(13184, 1, '2017-08-23 11:28:43', 'login'),
+(13185, 1, '2017-08-23 11:30:29', 'logout'),
+(13186, 1, '2017-08-23 11:30:58', 'login'),
+(13187, 1, '2017-08-23 11:32:32', 'logout'),
+(13188, 1, '2017-08-23 11:35:59', 'login'),
+(13189, 1, '2017-08-23 11:36:56', 'logout'),
+(13190, 80, '2017-08-23 11:37:12', 'login'),
+(13191, 80, '2017-08-23 11:38:37', 'logout'),
+(13192, 1, '2017-08-23 11:39:23', 'login'),
+(13193, 1, '2017-08-23 11:40:15', 'logout'),
+(13194, 1, '2017-08-23 11:42:57', 'login'),
+(13195, 1, '2017-08-23 11:42:59', 'logout'),
+(13196, 80, '2017-08-23 11:43:22', 'login'),
+(13197, 80, '2017-08-23 11:43:31', 'logout'),
+(13198, 1, '2017-08-23 11:44:38', 'login'),
+(13199, 1, '2017-08-23 11:44:45', 'logout'),
+(13200, 80, '2017-08-23 11:44:52', 'login'),
+(13201, 80, '2017-08-23 11:45:13', 'logout'),
+(13202, 80, '2017-08-23 11:47:28', 'login'),
+(13203, 80, '2017-08-23 11:47:56', 'logout'),
+(13204, 1, '2017-08-23 11:48:00', 'login'),
+(13205, 1, '2017-08-23 11:49:51', 'logout'),
+(13206, 70, '2017-08-23 12:28:43', 'login'),
+(13207, 70, '2017-08-23 12:30:46', 'logout'),
+(13208, 1, '2017-08-23 12:30:51', 'login'),
+(13209, 1, '2017-08-23 12:46:06', 'logout'),
+(13210, 80, '2017-08-24 08:01:44', 'login'),
+(13211, 80, '2017-08-24 08:01:47', 'logout'),
+(13212, 1, '2017-08-31 14:35:32', 'login'),
+(13213, 1, '2017-08-31 15:10:47', 'logout'),
+(13214, 80, '2017-08-31 15:10:51', 'login'),
+(13215, 80, '2017-08-31 15:19:36', 'logout'),
+(13216, 1, '2017-08-31 15:19:39', 'login'),
+(13217, 1, '2017-08-31 15:22:20', 'logout'),
+(13218, 69, '2017-08-31 15:22:25', 'login'),
+(13219, 69, '2017-08-31 15:22:46', 'logout'),
+(13220, 68, '2017-08-31 15:22:52', 'login'),
+(13221, 68, '2017-08-31 15:23:11', 'logout'),
+(13222, 1, '2017-08-31 15:23:14', 'login'),
+(13223, 1, '2017-08-31 15:23:28', 'logout'),
+(13224, 75, '2017-08-31 15:23:33', 'login'),
+(13225, 75, '2017-08-31 15:27:03', 'logout'),
+(13226, 2, '2017-08-31 15:27:10', 'login'),
+(13227, 2, '2017-08-31 15:27:39', 'logout'),
+(13228, 1, '2017-08-31 15:27:42', 'login'),
+(13229, 1, '2017-08-31 15:43:57', 'logout'),
+(13230, 80, '2017-08-31 15:44:01', 'login'),
+(13231, 80, '2017-08-31 17:44:23', 'destroy'),
+(13232, 80, '2017-08-31 17:44:26', 'login'),
+(13233, 80, '2017-08-31 20:06:51', 'destroy'),
+(13234, 1, '2017-09-01 06:26:01', 'login'),
+(13235, 1, '2017-09-01 06:27:00', 'logout'),
+(13236, 1, '2017-09-01 06:31:02', 'login'),
+(13237, 1, '2017-09-01 06:34:47', 'logout'),
+(13238, 1, '2017-09-01 15:08:42', 'login'),
+(13239, 1, '2017-09-01 15:34:55', 'logout'),
+(13240, 68, '2017-09-01 15:35:00', 'login'),
+(13241, 68, '2017-09-01 15:35:08', 'logout'),
+(13242, 78, '2017-09-01 15:35:12', 'login'),
+(13243, 78, '2017-09-01 15:35:21', 'logout'),
+(13244, 71, '2017-09-01 15:35:26', 'login'),
+(13245, 71, '2017-09-01 15:35:44', 'logout'),
+(13246, 1, '2017-09-01 15:36:56', 'login'),
+(13247, 1, '2017-09-01 16:05:31', 'logout'),
+(13248, 1, '2017-09-02 07:34:14', 'login'),
+(13249, 1, '2017-09-02 08:37:13', 'destroy'),
+(13250, 1, '2017-09-02 08:37:15', 'login'),
+(13251, 1, '2017-09-02 09:26:52', 'logout'),
+(13252, 68, '2017-09-02 09:26:56', 'login'),
+(13253, 68, '2017-09-02 09:27:27', 'logout'),
+(13254, 68, '2017-09-02 09:29:12', 'login'),
+(13255, 68, '2017-09-02 09:35:50', 'logout'),
+(13256, 68, '2017-09-02 09:35:55', 'login'),
+(13257, 68, '2017-09-02 09:50:05', 'logout'),
+(13258, 80, '2017-09-02 09:50:09', 'login'),
+(13259, 80, '2017-09-02 09:51:22', 'logout'),
+(13260, 80, '2017-09-02 09:51:24', 'login'),
+(13261, 80, '2017-09-02 09:51:33', 'logout'),
+(13262, 68, '2017-09-02 09:51:39', 'login'),
+(13263, 68, '2017-09-02 12:09:30', 'destroy'),
+(13264, 71, '2017-09-02 12:09:38', 'login'),
+(13265, 71, '2017-09-02 13:02:39', 'logout'),
+(13266, 1, '2017-09-02 13:02:42', 'login'),
+(13267, 1, '2017-09-02 13:02:52', 'logout'),
+(13268, 1, '2017-09-02 13:03:50', 'login'),
+(13269, 1, '2017-09-02 13:05:20', 'logout'),
+(13270, 0, '2017-09-02 13:43:24', 'unknownUser'),
+(13271, 1, '2017-09-02 13:43:29', 'login'),
+(13272, 1, '2017-09-02 14:18:35', 'logout'),
+(13273, 1, '2017-09-02 14:18:41', 'login'),
+(13274, 1, '2017-09-02 14:27:24', 'logout'),
+(13275, 80, '2017-09-03 06:32:16', 'login'),
+(13276, 80, '2017-09-03 06:32:39', 'logout'),
+(13277, 80, '2017-09-03 06:53:48', 'login'),
+(13278, 80, '2017-09-03 07:48:49', 'logout'),
+(13279, 80, '2017-09-03 07:48:56', 'login'),
+(13280, 80, '2017-09-03 07:49:31', 'login'),
+(13281, 80, '2017-09-03 08:06:28', 'logout'),
+(13282, 1, '2017-09-03 09:40:33', 'login'),
+(13283, 1, '2017-09-03 09:40:46', 'logout'),
+(13284, 1, '2017-09-03 09:40:51', 'login'),
+(13285, 1, '2017-09-03 10:07:50', 'logout'),
+(13286, 1, '2017-09-03 10:07:55', 'login'),
+(13287, 1, '2017-09-03 10:08:34', 'logout'),
+(13288, 1, '2017-09-03 10:08:42', 'login'),
+(13289, 1, '2017-09-03 10:09:26', 'logout'),
+(13290, 1, '2017-09-03 10:10:00', 'login'),
+(13291, 1, '2017-09-03 10:11:38', 'logout'),
+(13292, 1, '2017-09-03 10:11:44', 'login'),
+(13293, 1, '2017-09-03 10:24:11', 'logout'),
+(13294, 1, '2017-09-03 10:24:17', 'login'),
+(13295, 1, '2017-09-03 10:24:35', 'logout'),
+(13296, 1, '2017-09-03 10:24:43', 'login'),
+(13297, 1, '2017-09-03 10:24:57', 'logout'),
+(13298, 1, '2017-09-03 10:25:16', 'login'),
+(13299, 1, '2017-09-03 11:04:08', 'logout'),
+(13300, 1, '2017-09-03 12:33:45', 'wrongPass'),
+(13301, 1, '2017-09-03 12:34:43', 'wrongPass'),
+(13302, 1, '2017-09-03 12:36:05', 'wrongPass'),
+(13303, 1, '2017-09-03 12:37:02', 'wrongPass'),
+(13304, 1, '2017-09-03 12:37:13', 'wrongPass'),
+(13305, 1, '2017-09-03 12:38:14', 'wrongPass'),
+(13306, 1, '2017-09-03 12:40:13', 'login'),
+(13307, 1, '2017-09-03 12:57:26', 'logout'),
+(13308, 1, '2017-09-03 12:57:44', 'login'),
+(13309, 1, '2017-09-03 13:00:02', 'logout'),
+(13310, 1, '2017-09-03 13:00:19', 'login'),
+(13311, 1, '2017-09-03 13:01:29', 'logout'),
+(13312, 1, '2017-09-03 13:01:34', 'wrongPass'),
+(13313, 1, '2017-09-03 13:02:29', 'login'),
+(13314, 1, '2017-09-03 13:02:30', 'logout'),
+(13315, 1, '2017-09-03 13:02:39', 'login'),
+(13316, 1, '2017-09-03 13:08:15', 'logout'),
+(13317, 1, '2017-09-03 13:08:21', 'login'),
+(13318, 1, '2017-09-03 13:12:03', 'logout'),
+(13319, 1, '2017-09-03 13:13:32', 'login'),
+(13320, 1, '2017-09-03 13:16:28', 'logout'),
+(13321, 68, '2017-09-03 13:16:33', 'login'),
+(13322, 68, '2017-09-03 13:17:27', 'logout'),
+(13323, 1, '2017-09-03 13:17:32', 'login'),
+(13324, 1, '2017-09-03 13:22:08', 'logout'),
+(13325, 80, '2017-09-03 13:22:12', 'login'),
+(13326, 80, '2017-09-03 13:25:06', 'logout'),
+(13327, 1, '2017-09-03 13:25:11', 'login'),
+(13328, 1, '2017-09-03 13:25:54', 'logout'),
+(13329, 1, '2017-09-03 13:25:58', 'login'),
+(13330, 1, '2017-09-03 13:36:12', 'logout'),
+(13331, 71, '2017-09-03 13:36:15', 'login'),
+(13332, 71, '2017-09-03 13:43:59', 'logout'),
+(13333, 80, '2017-09-03 13:44:04', 'login'),
+(13334, 80, '2017-09-03 13:52:28', 'logout'),
+(13335, 68, '2017-09-04 14:16:13', 'login'),
+(13336, 68, '2017-09-04 14:18:09', 'logout'),
+(13337, 1, '2017-09-04 14:33:03', 'wrongPass'),
+(13338, 1, '2017-09-04 14:33:11', 'wrongPass'),
+(13339, 1, '2017-09-04 14:33:16', 'login'),
+(13340, 1, '2017-09-04 14:34:42', 'logout'),
+(13341, 68, '2017-09-04 14:34:46', 'login'),
+(13342, 68, '2017-09-04 15:01:28', 'logout'),
+(13343, 1, '2017-09-05 14:10:50', 'wrongPass'),
+(13344, 1, '2017-09-05 14:10:57', 'login'),
+(13345, 1, '2017-09-05 14:40:49', 'logout'),
+(13346, 71, '2017-09-05 14:40:54', 'login'),
+(13347, 71, '2017-09-05 15:05:27', 'logout'),
+(13348, 1, '2017-09-05 15:05:38', 'login'),
+(13349, 1, '2017-09-05 15:15:35', 'logout'),
+(13350, 1, '2017-09-05 15:15:41', 'login'),
+(13351, 1, '2017-09-05 15:52:01', 'logout'),
+(13352, 68, '2017-09-05 15:52:06', 'login'),
+(13353, 68, '2017-09-05 15:52:09', 'logout'),
+(13354, 80, '2017-09-05 15:52:13', 'login'),
+(13355, 80, '2017-09-05 16:17:32', 'logout'),
+(13356, 80, '2017-09-05 16:18:25', 'login'),
+(13357, 80, '2017-09-05 16:23:41', 'logout'),
+(13358, 1, '2017-09-05 16:23:47', 'login'),
+(13359, 1, '2017-09-05 16:24:45', 'logout'),
+(13360, 80, '2017-09-05 16:26:34', 'login'),
+(13361, 80, '2017-09-05 16:26:46', 'logout'),
+(13362, 80, '2017-09-05 16:26:50', 'login'),
+(13363, 80, '2017-09-05 16:27:44', 'logout'),
+(13364, 1, '2017-09-05 16:27:48', 'login'),
+(13365, 1, '2017-09-05 17:12:48', 'logout'),
+(13366, 80, '2017-09-05 17:12:52', 'login'),
+(13367, 80, '2017-09-05 20:23:02', 'destroy'),
+(13368, 80, '2017-09-05 20:23:07', 'login'),
+(13369, 80, '2017-09-05 20:23:11', 'logout'),
+(13370, 80, '2017-09-05 20:32:15', 'login'),
+(13371, 80, '2017-09-05 20:32:19', 'logout'),
+(13372, 80, '2017-09-05 20:32:52', 'login'),
+(13373, 80, '2017-09-05 20:32:55', 'logout'),
+(13374, 1, '2017-09-05 20:37:09', 'login'),
+(13375, 1, '2017-09-05 20:49:18', 'logout'),
+(13376, 80, '2017-09-05 20:49:22', 'login'),
+(13377, 80, '2017-09-05 20:54:14', 'logout'),
+(13378, 80, '2017-09-06 05:48:25', 'login'),
+(13379, 80, '2017-09-06 06:00:14', 'logout'),
+(13380, 71, '2017-09-06 06:00:19', 'login'),
+(13381, 71, '2017-09-06 06:00:47', 'logout'),
+(13382, 80, '2017-09-06 15:38:19', 'login'),
+(13383, 80, '2017-09-06 15:38:44', 'logout'),
+(13384, 80, '2017-09-06 15:42:07', 'login'),
+(13385, 80, '2017-09-06 15:42:17', 'logout'),
+(13386, 1, '2017-09-06 15:52:48', 'login'),
+(13387, 1, '2017-09-06 16:00:25', 'logout'),
+(13388, 80, '2017-09-06 16:00:56', 'login'),
+(13389, 80, '2017-09-06 19:23:39', 'destroy'),
+(13390, 80, '2017-09-06 19:23:48', 'login'),
+(13391, 80, '2017-09-06 19:23:49', 'logout'),
+(13392, 68, '2017-09-07 10:06:43', 'login'),
+(13393, 68, '2017-09-07 10:06:51', 'logout'),
+(13394, 71, '2017-09-07 10:06:57', 'login');
 
 -- --------------------------------------------------------
 
@@ -649,11 +1133,10 @@ INSERT INTO `Colles_Log` (`id_log`, `Personne`, `Instant`, `Action`) VALUES
 --
 
 DROP TABLE IF EXISTS `Colles_Matiere`;
-CREATE TABLE IF NOT EXISTS `Colles_Matiere` (
+CREATE TABLE `Colles_Matiere` (
   `id_matiere` int(11) UNSIGNED NOT NULL,
   `Nom` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_matiere`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -675,24 +1158,21 @@ INSERT INTO `Colles_Matiere` (`id_matiere`, `Nom`, `DerniereModification`) VALUE
 --
 
 DROP TABLE IF EXISTS `Colles_Note`;
-CREATE TABLE IF NOT EXISTS `Colles_Note` (
-  `id_note` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Colles_Note` (
+  `id_note` int(11) UNSIGNED NOT NULL,
   `idColloscope` int(11) UNSIGNED NOT NULL,
   `Valeur` decimal(3,1) DEFAULT NULL,
   `Colle` int(11) UNSIGNED NOT NULL,
   `Groupement` int(11) UNSIGNED NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_note`),
-  KEY `fk_Note_Colle_idx` (`Colle`),
-  KEY `fk_Note_Groupement_idx` (`Groupement`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Contenu de la table `Colles_Note`
 --
 
 INSERT INTO `Colles_Note` (`id_note`, `idColloscope`, `Valeur`, `Colle`, `Groupement`, `DerniereModification`) VALUES
-(2, 2, '12.8', 1634, 50, '2017-08-16 15:17:29'),
+(2, 2, '12.5', 1634, 50, '2017-09-05 15:14:05'),
 (3, 2, '16.0', 1530, 55, '2017-08-21 09:01:01'),
 (4, 3, '13.0', 1697, 88, '2017-08-21 09:01:01'),
 (5, 2, '15.0', 1531, 70, '2017-08-21 09:01:01'),
@@ -749,7 +1229,7 @@ INSERT INTO `Colles_Note` (`id_note`, `idColloscope`, `Valeur`, `Colle`, `Groupe
 (56, 2, '10.5', 1429, 55, '2017-08-31 15:27:37'),
 (57, 2, '7.5', 1429, 56, '2017-08-31 15:27:37'),
 (58, 2, '14.5', 1429, 57, '2017-08-31 15:27:37'),
-(59, 3, '-3.0', 1699, 94, '2017-09-02 09:09:38'),
+(59, 3, '14.0', 1699, 94, '2017-09-05 15:19:47'),
 (60, 3, '12.0', 1693, 84, '2017-09-02 09:32:22');
 
 -- --------------------------------------------------------
@@ -759,7 +1239,7 @@ INSERT INTO `Colles_Note` (`id_note`, `idColloscope`, `Valeur`, `Colle`, `Groupe
 --
 
 DROP TABLE IF EXISTS `Colles_Personne`;
-CREATE TABLE IF NOT EXISTS `Colles_Personne` (
+CREATE TABLE `Colles_Personne` (
   `id_personne` int(11) UNSIGNED NOT NULL,
   `Nom` varchar(45) NOT NULL,
   `Prenom` varchar(45) CHARACTER SET utf8 NOT NULL,
@@ -769,11 +1249,7 @@ CREATE TABLE IF NOT EXISTS `Colles_Personne` (
   `MotDePasse` varchar(255) DEFAULT NULL,
   `Type-old` enum('eleve','prof','admin') NOT NULL,
   `Nature` bigint(20) NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_personne`,`NomDUtilisateur`),
-  KEY `idx_personne_nom` (`Nom`),
-  KEY `idx_personne_nomUtilsateur` (`NomDUtilisateur`),
-  KEY `idx_nomPrenom` (`Nom`,`Prenom`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -781,29 +1257,29 @@ CREATE TABLE IF NOT EXISTS `Colles_Personne` (
 --
 
 INSERT INTO `Colles_Personne` (`id_personne`, `Nom`, `Prenom`, `Civilite`, `Mail`, `NomDUtilisateur`, `MotDePasse`, `Type-old`, `Nature`, `DerniereModification`) VALUES
-(1, 'STENGEL', 'Frank', 'M.', 'pc@stengel.fr', 'fstengel', '', 'eleve', 262, '2017-08-22 17:10:05'),
-(2, 'COUCHOURON', 'Jean-Francois', 'M.', '', 'jcouchouron', '', 'eleve', 2, '2017-08-22 17:10:05'),
-(3, 'RIGAUT', 'Mattieu', 'M.', '', 'mrigaut', '', 'eleve', 6, '2017-08-22 17:10:05'),
-(59, 'ARNOULD', 'Marie', 'Mme.', '', 'marnould', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(60, 'BAUMANN', 'Jérome', 'M.', '', 'jbaumann', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(61, 'BERTANIOLIO', 'Marion', 'Mme.', '', 'mbertaniolio', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(62, 'CARME', 'Marie', 'Mme.', '', 'mcarme', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(63, 'CHAUVEY', 'Anne', 'Mme.', '', 'achauvey', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(64, 'CURK', 'Anne', 'Mme.', '', 'acurk', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(65, 'DESSAUGER', 'Julie', 'Mme.', '', 'jdessauger', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(66, 'DVORSAK', 'Elodie', 'Mme.', '', 'edvorsak', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(67, 'FAYNOT', 'Philippe', 'M.', '', 'pfaynot', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(68, 'GIRAULT', 'Pascal', 'M.', '', 'pgirault', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(69, 'LEGUIL', 'Emmanuel', 'M.', '', 'eleguil', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(70, 'LOQUAIS', 'Yohan', 'M.', '', 'yloquais', '', 'eleve', 6, '2017-08-22 17:10:05'),
-(71, 'MARTIN', 'Isabelle', 'Mme.', '', 'imartin', '', 'eleve', 6, '2017-08-22 17:10:05'),
-(72, 'MENGEL', 'Daniel', 'M.', '', 'dmengel', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(73, 'OLIER', 'France', 'Mme.', '', 'folier', '', 'eleve', 6, '2017-08-22 17:10:05'),
-(74, 'RAMIREZ', 'Olivier', 'M.', '', 'oramirez', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(75, 'THOUVENEL', 'Herve', 'M.', '', 'hthouvenel', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(76, 'WILLAY', 'Caroline', 'Mme.', '', 'cwillay', NULL, 'eleve', 2, '2017-08-22 17:10:58'),
-(77, 'WIPF', 'Nicolas', 'M.', '', 'nwipf', NULL, 'eleve', 2, '2017-08-22 17:10:05'),
-(78, 'DOSSMANN', 'Didier', 'M.', '', 'ddossmann', '', 'eleve', 4, '2017-08-22 17:10:05'),
+(1, 'STENGEL', 'Frank', 'M.', 'pc@stengel.fr', 'fstengel', '*****:$2y$10$Kxcc15RUhQEsJ/bPqgDJV.Hhbgt8w0SfiiHKrX3mXtO4L2re7MODq', 'eleve', 262, '2017-09-03 09:40:42'),
+(2, 'COUCHAT', 'Jean', 'M.', '', 'jcouchat', '', 'eleve', 2, '2017-09-07 10:02:15'),
+(3, 'RIBERO', 'Mattieu', 'M.', '', 'mribero', '', 'eleve', 6, '2017-09-07 09:57:50'),
+(59, 'ARNOLD', 'Virginie', 'Mme.', '', 'varnold', NULL, 'eleve', 2, '2017-09-07 10:04:04'),
+(60, 'BERTIN', 'Jérome', 'M.', '', 'jbertin', NULL, 'eleve', 2, '2017-09-07 09:57:50'),
+(61, 'BOZZUTTI', 'Marion', 'Mme.', '', 'mbozzutti', NULL, 'eleve', 2, '2017-09-07 10:06:38'),
+(62, 'CALAS', 'Marie', 'Mme.', '', 'mcalas', NULL, 'eleve', 2, '2017-09-07 10:02:15'),
+(63, 'CHAURAY', 'Anne', 'Mme.', '', 'achauray', NULL, 'eleve', 2, '2017-09-07 10:04:04'),
+(64, 'COMEL', 'Anne', 'Mme.', '', 'acomel', NULL, 'eleve', 2, '2017-09-07 09:57:50'),
+(65, 'DORCEL', 'Julie', 'Mme.', '', 'jdorcel', NULL, 'eleve', 2, '2017-09-07 10:02:15'),
+(66, 'DUBCEK', 'Elodie', 'Mme.', '', 'edubcek', NULL, 'eleve', 2, '2017-09-07 09:57:50'),
+(67, 'FAYON', 'Philippe', 'M.', '', 'pfayon', NULL, 'eleve', 2, '2017-09-07 10:02:15'),
+(68, 'GARNIER', 'Pascal', 'M.', '', 'pgarnier', NULL, 'eleve', 2, '2017-09-07 09:57:50'),
+(69, 'LEFOLL', 'Emmanuel', 'M.', '', 'elefoll', '', 'eleve', 6, '2017-09-07 10:04:04'),
+(70, 'LORQUIN', 'Yohan', 'M.', '', 'ylorquin', '', 'eleve', 6, '2017-09-07 10:06:38'),
+(71, 'MONCERF', 'Isabelle', 'Mme.', '', 'imoncerf', '', 'eleve', 6, '2017-09-07 09:57:50'),
+(72, 'MANGIN', 'Daniel', 'M.', '', 'dmangin', NULL, 'eleve', 2, '2017-09-07 10:02:15'),
+(73, 'OMALE', 'France', 'Mme.', '', 'fomale', '', 'eleve', 6, '2017-09-07 10:06:38'),
+(74, 'GOMEZ', 'Olivier', 'M.', '', 'ogomez', NULL, 'eleve', 2, '2017-09-07 10:06:38'),
+(75, 'THOMIS', 'Herve', 'M.', '', 'hthomis', NULL, 'eleve', 2, '2017-09-07 10:02:15'),
+(76, 'WALL', 'Caroline', 'Mme.', '', 'cwall', NULL, 'eleve', 2, '2017-09-07 10:06:38'),
+(77, 'WINTZ', 'Nicolas', 'M.', '', 'nwintz', NULL, 'eleve', 2, '2017-09-07 10:04:04'),
+(78, 'DORFMANN', 'Didier', 'M.', '', 'ddorfmann', '', 'eleve', 4, '2017-09-07 10:06:38'),
 (79, 'CHAMBRIER', 'Alice', NULL, '', 'achambrier', NULL, 'eleve', 1, '2017-08-08 09:14:53'),
 (80, 'ELGATO', 'Jordan', NULL, '', 'jelgato', NULL, 'eleve', 1, '2017-08-08 09:14:53'),
 (81, 'NIVERT', 'Valentin', NULL, '', 'vnivert', NULL, 'eleve', 1, '2017-08-08 09:14:53'),
@@ -863,14 +1339,12 @@ INSERT INTO `Colles_Personne` (`id_personne`, `Nom`, `Prenom`, `Civilite`, `Mail
 --
 
 DROP TABLE IF EXISTS `Colles_Responsable`;
-CREATE TABLE IF NOT EXISTS `Colles_Responsable` (
+CREATE TABLE `Colles_Responsable` (
   `id_responsable` int(11) UNSIGNED NOT NULL,
   `Division` int(11) NOT NULL,
   `Personne` int(11) UNSIGNED NOT NULL,
   `Matiere` int(11) UNSIGNED NOT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_responsable`),
-  KEY `fk_Responsable_Personne_idx` (`Personne`)
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -895,16 +1369,15 @@ INSERT INTO `Colles_Responsable` (`id_responsable`, `Division`, `Personne`, `Mat
 --
 
 DROP TABLE IF EXISTS `Colles_Semaine`;
-CREATE TABLE IF NOT EXISTS `Colles_Semaine` (
-  `id_semaine` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Colles_Semaine` (
+  `id_semaine` int(11) UNSIGNED NOT NULL,
   `Annee` date NOT NULL,
   `Nom` varchar(10) CHARACTER SET utf8 NOT NULL,
   `Debut` date NOT NULL,
   `Fin` date NOT NULL,
   `Colonne` varchar(5) COLLATE utf8_bin DEFAULT NULL,
-  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_semaine`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `DerniereModification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Contenu de la table `Colles_Semaine`
@@ -943,32 +1416,158 @@ INSERT INTO `Colles_Semaine` (`id_semaine`, `Annee`, `Nom`, `Debut`, `Fin`, `Col
 --
 
 DROP TABLE IF EXISTS `Colles_Session`;
-CREATE TABLE IF NOT EXISTS `Colles_Session` (
+CREATE TABLE `Colles_Session` (
   `id_session` varchar(40) NOT NULL,
   `Personne` int(11) UNSIGNED NOT NULL,
-  `Fin` decimal(10,0) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id_session`,`Personne`),
-  KEY `fk_Colles_Session_Personne_idx` (`Personne`)
+  `Fin` decimal(10,0) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `Colles_Session`
+--
+
+INSERT INTO `Colles_Session` (`id_session`, `Personne`, `Fin`) VALUES
+('4b9858604d9b063b0ba37520006f556b', 80, '1504428571'),
+('bb3570836d67afaddffbbbb43c31eb0a', 71, '1504782417');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la vue `colles_classe`
+-- Structure de la vue `Colles_Classe`
 --
-DROP TABLE IF EXISTS `colles_classe`;
+DROP TABLE IF EXISTS `Colles_Classe`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `colles_classe`  AS  (select `G`.`Eleve` AS `Eleve`,`P`.`Nom` AS `Nom`,`P`.`Prenom` AS `Prenom`,`G`.`Groupe` AS `Groupe`,`G`.`id_groupement` AS `Groupement`,`G`.`idColloscope` AS `idColloscope` from (`colles_personne` `P` join `colles_groupement` `G` on((`P`.`id_personne` = `G`.`Eleve`)))) ;
+CREATE  VIEW `Colles_Classe`  AS  (select `G`.`Eleve` AS `Eleve`,`P`.`Nom` AS `Nom`,`P`.`Prenom` AS `Prenom`,`G`.`Groupe` AS `Groupe`,`G`.`id_groupement` AS `Groupement`,`G`.`idColloscope` AS `idColloscope` from (`Colles_Personne` `P` join `Colles_Groupement` `G` on((`P`.`id_personne` = `G`.`Eleve`)))) ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la vue `colles_crenaucomplet`
+-- Structure de la vue `Colles_CrenauComplet`
 --
-DROP TABLE IF EXISTS `colles_crenaucomplet`;
+DROP TABLE IF EXISTS `Colles_CrenauComplet`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `colles_crenaucomplet`  AS  select `C`.`id_crenau` AS `id_crenau`,`I`.`id_intervenant` AS `id_intervenant`,`C`.`Jour` AS `Jour`,`C`.`Debut` AS `Debut`,`C`.`Fin` AS `Fin`,`C`.`Lieu` AS `Lieu`,`C`.`idColloscope` AS `idColloscope`,`I`.`Matiere` AS `Matiere` from (`colles_crenau` `C` join `colles_intervenant` `I` on((`C`.`Intervenant` = `I`.`id_intervenant`))) ;
+CREATE  VIEW `Colles_CrenauComplet`  AS  select `C`.`id_crenau` AS `id_crenau`,`I`.`id_intervenant` AS `id_intervenant`,`C`.`Jour` AS `Jour`,`C`.`Debut` AS `Debut`,`C`.`Fin` AS `Fin`,`C`.`Lieu` AS `Lieu`,`C`.`idColloscope` AS `idColloscope`,`I`.`Matiere` AS `Matiere` from (`Colles_Crenau` `C` join `Colles_Intervenant` `I` on((`C`.`Intervenant` = `I`.`id_intervenant`))) ;
 
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `Colles_Colle`
+--
+ALTER TABLE `Colles_Colle`
+  ADD PRIMARY KEY (`id_colle`),
+  ADD KEY `fk_Colle_Crenau_idx` (`Crenau`),
+  ADD KEY `fk_Colle_Semaine_idx` (`Semaine`);
+
+--
+-- Index pour la table `Colles_Crenau`
+--
+ALTER TABLE `Colles_Crenau`
+  ADD PRIMARY KEY (`id_crenau`),
+  ADD KEY `fk_Crenau_Intervenant_idx` (`Intervenant`);
+
+--
+-- Index pour la table `Colles_Division`
+--
+ALTER TABLE `Colles_Division`
+  ADD PRIMARY KEY (`id_division`);
+
+--
+-- Index pour la table `Colles_Groupement`
+--
+ALTER TABLE `Colles_Groupement`
+  ADD PRIMARY KEY (`id_groupement`),
+  ADD KEY `fk_Groupement_Eleve_idx` (`Eleve`);
+
+--
+-- Index pour la table `Colles_IdColloscope`
+--
+ALTER TABLE `Colles_IdColloscope`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_anneeDivision` (`annee`,`division`);
+
+--
+-- Index pour la table `Colles_Intervenant`
+--
+ALTER TABLE `Colles_Intervenant`
+  ADD PRIMARY KEY (`id_intervenant`),
+  ADD KEY `fk_Intervenant_Personne_idx` (`Personne`);
+
+--
+-- Index pour la table `Colles_Log`
+--
+ALTER TABLE `Colles_Log`
+  ADD PRIMARY KEY (`id_log`),
+  ADD KEY `Instant` (`Instant`);
+
+--
+-- Index pour la table `Colles_Matiere`
+--
+ALTER TABLE `Colles_Matiere`
+  ADD PRIMARY KEY (`id_matiere`);
+
+--
+-- Index pour la table `Colles_Note`
+--
+ALTER TABLE `Colles_Note`
+  ADD PRIMARY KEY (`id_note`),
+  ADD KEY `fk_Note_Colle_idx` (`Colle`),
+  ADD KEY `fk_Note_Groupement_idx` (`Groupement`);
+
+--
+-- Index pour la table `Colles_Personne`
+--
+ALTER TABLE `Colles_Personne`
+  ADD PRIMARY KEY (`id_personne`,`NomDUtilisateur`),
+  ADD KEY `idx_personne_nom` (`Nom`),
+  ADD KEY `idx_personne_nomUtilsateur` (`NomDUtilisateur`),
+  ADD KEY `idx_nomPrenom` (`Nom`,`Prenom`);
+
+--
+-- Index pour la table `Colles_Responsable`
+--
+ALTER TABLE `Colles_Responsable`
+  ADD PRIMARY KEY (`id_responsable`),
+  ADD KEY `fk_Responsable_Personne_idx` (`Personne`);
+
+--
+-- Index pour la table `Colles_Semaine`
+--
+ALTER TABLE `Colles_Semaine`
+  ADD PRIMARY KEY (`id_semaine`);
+
+--
+-- Index pour la table `Colles_Session`
+--
+ALTER TABLE `Colles_Session`
+  ADD PRIMARY KEY (`id_session`,`Personne`),
+  ADD KEY `fk_Colles_Session_Personne_idx` (`Personne`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `Colles_IdColloscope`
+--
+ALTER TABLE `Colles_IdColloscope`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `Colles_Log`
+--
+ALTER TABLE `Colles_Log`
+  MODIFY `id_log` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13395;
+--
+-- AUTO_INCREMENT pour la table `Colles_Note`
+--
+ALTER TABLE `Colles_Note`
+  MODIFY `id_note` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+--
+-- AUTO_INCREMENT pour la table `Colles_Semaine`
+--
+ALTER TABLE `Colles_Semaine`
+  MODIFY `id_semaine` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 --
 -- Contraintes pour les tables exportées
 --

@@ -192,8 +192,8 @@ function HTMLMesNotesDesSemaines($lesSemaines) {
 		$lesSemainesParId[$id] = $semaine;
 	}
 
-	$req = "SELECT C.Semaine, Matiere, Valeur from Colles_Personne as P Join Colles_Groupement as G  on id_personne=Eleve 
-		join Colles_Note as N on N.Groupement=G.id_groupement Join Colles_Colle as C on N.Colle=C.id_colle join Colles_Crenaucomplet as Cr on Cr.id_crenau=C.Crenau 
+	$req = "SELECT C.Semaine, Matiere, Valeur from ".PrefixeDB."Personne as P Join ".PrefixeDB."Groupement as G  on id_personne=Eleve 
+		join ".PrefixeDB."Note as N on N.Groupement=G.id_groupement Join ".PrefixeDB."Colle as C on N.Colle=C.id_colle join ".PrefixeDB."CrenauComplet as Cr on Cr.id_crenau=C.Crenau 
 		where Semaine in $lesIdSemaines and G.idColloscope=$monIdColl and P.id_personne=$idMoi";
 	$res = $accesDB->ExecRequete($req);
 	$mesNotes = $accesDB->ToutesLesLignes($res);

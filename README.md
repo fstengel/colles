@@ -4,6 +4,13 @@ Un petit site pour gérer les colles d'une classe de seconde année.
 
 ## Pour démarrer
 
+### Pour les impatients[^impa]
+
+[^impa]: Et ceux qui ne lisent pas les documents ***jusqu'au bout***.
+
+* Télécharcher : voir le point 2. de la section [installation](#installation).
+* Jouer : une version est disponible à l'adresse <http://colles.stengel.fr>. Vous disposez de tous les utilisateurs sauf `fstengel` qui est inaccessible. Voir [ce paragraphe](#pour-jouer-avec).
+
 ### Prérequis (logiciels)
 
 Il est nécessaire de disposer d'une solution donnant
@@ -22,12 +29,12 @@ Généralement un paquet complet combine ces trois groupes de logiciels. Par pla
 
 * Savoir utiliser phpMyAdmin pour importer une base.
 * Savoir mettre en place un site sous apache (ou autre serveur web).
-* Savoir jouer avec GitHub.
+* Savoir jouer avec GitHub. Ceci dit
 
 ### Installation
 
 1. Démarrer votre serveur apache/mySQL
-2. Télécharger le site depuis GitHub (normalement vous y êtes !) sous forme d'archive .zip. C'est le bouton vert (`clone or download`) option `Download ZIP`
+2. Télécharger le site depuis GitHub (normalement vous y êtes !) sous forme d'archive .zip. C'est le bouton vert (`clone or download`)  en haut de cette page. Choisir l'option `Download ZIP`
 3. Décompresser l'archive (a priori `colles-master.zip`) contenant le dossier complet dans le répertoire racine du serveur web (`htdocs` chez apache)
 4. Renommer le dossier de `colles-master` en `colles`
 2. importer le fichier `sql/Colles-Structure+Donnees.sql` dans votre base de données
@@ -39,8 +46,8 @@ La page d'acceuil sera à l'URL *votreServeur*/colles/ où *votreServeur* est bi
 Essayez avec 4 utilisateurs *sans mot de passe* (!) :
 
 * `fstengel` qui est admin, responsable et prof. Attenttion, importer des CSV risque de détruire les données déjà présentes. Ceci dit : on ré-importe la BDD et hop !
-* `pgirault` qui est prof
-* `imartin` qui est responsable et prof
+* `pgarnier` qui est prof
+* `imoncerf` qui est responsable et prof
 * `jelgato` qui est élève
 
 Avec un peu de nez on peut trouver d'autres utilisateurs avec leur rôle en utilisant l'admin pour regarder les personnes.
@@ -63,6 +70,6 @@ Les fichiers de `lib/` sont généralement documentés. Pour les fichiers princi
 
 UTF-8 sans BOM.
 
-### License
+### Licence
 
 GPL 3 ou compatibles.

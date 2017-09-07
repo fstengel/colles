@@ -4,7 +4,10 @@
 * [x] ~~Achever `gererEleve` (`cette` et `toute`)~~
 * [ ] Nettoyer code
 * [x] ~~Voir la disposition de `verifierQualiteMotDePasse` : ne serait-il pas mieux de l'intégrer à menu ?~~
+* [x] ~~Changer les noms d des intervenants~~.
+* [x] ~~Mettre en ligne la cersion castrée du site~~
 * [ ] Paginer les formulaires de `admin/gererPersonne` etc.
+* [ ] Ajouter un fichier `LICENCE.md`. Vraisemblablement GPL 3 ou Apache 2.
 * [ ] Dans les template/css modifier le` <div style="padding...` pour un `<div class="...` et une classe afférente dans le css. (Partiel)
 * [ ] Systématiser le `<div...` précédent (Partiel)
 * [ ] Proprement gérer le debug (fonction+flags...)
@@ -14,8 +17,8 @@
 # Nettoyage
 
 * [x] Chercher/indiquer le code mort
-* [ ] Commenter le code mort
-* [ ] Couper le code mort
+* [x] Commenter le code mort (sauf debug)
+* [x] Couper le code mort (sauf debug)
 
 # Documentation
 

@@ -1,34 +1,34 @@
-,,,,Semaines,1,2,3,4,5,6,7,8,9,10,11,12
-,,,,,14/09,21/09,28/09,05/10,12/10,02/11,09/11,16/11,23/11,30/11,07/12,14/12
-Jour,Heure,Matière,Colleur,Salle,18/09,25/09,02/10,09/10,16/10,06/11,13/11,20/11,27/11,04/12,11/12,18/12
-lundi,17-18,Chimie,Faynot,S103,,a,,b,,c,,d,,e,,f
-lundi,17-18,Maths,Thouvenel,T08,1,e,2,f,3,a,4,b,5,c,,d
-lundi,18-19,Chimie,Faynot,S103,,b,,c,,d,,e,,f,,a
-lundi,18-19,Maths,Couchouron,T02,2,f,3,a,4,b,5,c,,d,1,e
-,,,,,,,,,,,,,,,,
-mardi,15-16,Anglais,Martin,L13,b,2,c,3,d,4,e,5,b,2,c,3
-mardi,15-16,Physique,Baumann,S103,a,1,b,2,c,3,d,4,e,5,f,
-mardi,15-16,Physique,Mengel,T32,f,,a,1,b,2,c,3,d,4,e,5
-mardi,15-16,Physique,Rigaut,S002,e,5,f,,a,1,b,2,c,3,d,4
-mardi,16-17,Anglais,Carme,L18,c,3,d,4,e,5,d,4,e,5,b,2
-mardi,16-17,Anglais,Dessauger,L05,d,4,e,5,b,2,c,3,d,4,e,5
-mardi,17-18,Allemand,Chauvey,T08,a,,a,,a,,a,,a,,a,
-mardi,17-18,Chimie,Curk,S103,1,,2,,3,,4,,5,,1,
-mardi,17-18,Maths,Leguil,T35,4,d,5,e,,f,1,a,2,b,3,c
-mardi,17-18,Maths,Stengel,L21,3,c,4,d,5,e,,f,1,f,2,f
-mardi,17-18,Physique,Wipf,S001,b,2,c,3,d,4,e,5,f,,b,1
-mardi,17-19,Français,Arnould,T33,5,e,,f,1,a,2,b,3,c,4,d
-mardi,18-19,Chimie,Curk,S103,2,,3,,4,,5,,4,,5,
-,,,,,,,,,,,,,,,,
-mercredi,13-14,Chimie,Loquais,T22,3,c,4,d,5,e,3,f,1,a,2,b
-mercredi,13-14,Physique,Rigaut,T12,c,3,d,4,e,5,f,,a,2,a,3
-,,,,,,,,,,,,,,,,
-jeudi,18-19,Allemand,Olier,T02,,1,,1,,1,,1,,1,,1
-jeudi,18-19,Chimie,Loquais,S103,4,d,5,e,2,f,1,a,2,b,3,c
-jeudi,18-19,Chimie,Willay,T23,5,e,1,f,1,a,2,b,3,c,4,d
-,,,,,,,,,,,,,,,,
-vendredi,15-16,Maths,Girault,T21,5,a,,b,1,c,2,d,3,e,4,b
-vendredi,15-16,Maths,Stengel,T08,,b,1,c,2,d,3,e,4,a,5,a
-vendredi,15-16,Physique,Bertaniolio,T33,d,4,e,5,f,,a,1,b,1,c,2
-vendredi,16-17,Anglais,Dvorsak,L15,e,5,b,2,c,3,b,2,c,3,d,4
-vendredi,18-19,Chimie,Ramirez,S109,,f,,a,,b,,c,,d,,e
+				Semaines	1	2	3	4	5	6	7	8	9	10	11	12
+					14/09	21/09	28/09	05/10	12/10	02/11	09/11	16/11	23/11	30/11	07/12	14/12
+Jour	Heure	Matière	Colleur	Salle	18/09	25/09	02/10	09/10	16/10	06/11	13/11	20/11	27/11	04/12	11/12	18/12
+lundi	17-18	Chimie	Fayon	S103		a		b		c		d		e		f
+lundi	17-18	Maths	Thomis	T08	1	e	2	f	3	a	4	b	5	c		d
+lundi	18-19	Chimie	Fayon	S103		b		c		d		e		f		a
+lundi	18-19	Maths	Couchat	T02	2	f	3	a	4	b	5	c		d	1	e
+																
+mardi	15-16	Anglais	Moncerf	L13	b	2	c	3	d	4	e	5	b	2	c	3
+mardi	15-16	Physique	Bertin	S103	a	1	b	2	c	3	d	4	e	5	f	
+mardi	15-16	Physique	Mangin	T32	f		a	1	b	2	c	3	d	4	e	5
+mardi	15-16	Physique	Ribero	S002	e	5	f		a	1	b	2	c	3	d	4
+mardi	16-17	Anglais	Calas	L18	c	3	d	4	e	5	d	4	e	5	b	2
+mardi	16-17	Anglais	Dorcel	L05	d	4	e	5	b	2	c	3	d	4	e	5
+mardi	17-18	Allemand	Chauray	T08	a		a		a		a		a		a	
+mardi	17-18	Chimie	Comel	S103	1		2		3		4		5		1	
+mardi	17-18	Maths	Lefoll	T35	4	d	5	e		f	1	a	2	b	3	c
+mardi	17-18	Maths	Stengel	L21	3	c	4	d	5	e		f	1	f	2	f
+mardi	17-18	Physique	Wintz	S001	b	2	c	3	d	4	e	5	f		b	1
+mardi	17-19	Français	Arnold	T33	5	e		f	1	a	2	b	3	c	4	d
+mardi	18-19	Chimie	Comel	S103	2		3		4		5		4		5	
+																
+mercredi	13-14	Chimie	Lorquin	T22	3	c	4	d	5	e	3	f	1	a	2	b
+mercredi	13-14	Physique	Ribero	T12	c	3	d	4	e	5	f		a	2	a	3
+																
+jeudi	18-19	Allemand	Omale	T02		1		1		1		1		1		1
+jeudi	18-19	Chimie	Lorquin	S103	4	d	5	e	2	f	1	a	2	b	3	c
+jeudi	18-19	Chimie	Wall	T23	5	e	1	f	1	a	2	b	3	c	4	d
+																
+vendredi	15-16	Maths	Garnier	T21	5	a		b	1	c	2	d	3	e	4	b
+vendredi	15-16	Maths	Stengel	T08		b	1	c	2	d	3	e	4	a	5	a
+vendredi	15-16	Physique	Bozzutti	T33	d	4	e	5	f		a	1	b	1	c	2
+vendredi	16-17	Anglais	Dubcek	L15	e	5	b	2	c	3	b	2	c	3	d	4
+vendredi	18-19	Chimie	Gomez	S109		f		a		b		c		d		e

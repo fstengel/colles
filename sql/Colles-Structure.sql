@@ -20,11 +20,11 @@ USE `mydb`;
 -- --------------------------------------------------------
 
 --
--- Doublure de structure pour la vue `colles_classe`
+-- Doublure de structure pour la vue `Colles_Classe`
 -- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `colles_classe`;
-CREATE TABLE IF NOT EXISTS `colles_classe` (
+DROP VIEW IF EXISTS `Colles_Classe`;
+CREATE TABLE IF NOT EXISTS `Colles_Classe` (
 `Eleve` int(11) unsigned
 ,`Nom` varchar(45)
 ,`Prenom` varchar(45)
@@ -78,11 +78,11 @@ CREATE TABLE IF NOT EXISTS `Colles_Crenau` (
 -- --------------------------------------------------------
 
 --
--- Doublure de structure pour la vue `colles_crenaucomplet`
+-- Doublure de structure pour la vue `Colles_CrenauComplet`
 -- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `colles_crenaucomplet`;
-CREATE TABLE IF NOT EXISTS `colles_crenaucomplet` (
+DROP VIEW IF EXISTS `Colles_CrenauComplet`;
+CREATE TABLE IF NOT EXISTS `Colles_CrenauComplet` (
 `id_crenau` int(11) unsigned
 ,`id_intervenant` int(11) unsigned
 ,`Jour` smallint(5)
@@ -283,20 +283,20 @@ CREATE TABLE IF NOT EXISTS `Colles_Session` (
 -- --------------------------------------------------------
 
 --
--- Structure de la vue `colles_classe`
+-- Structure de la vue `Colles_Classe`
 --
-DROP TABLE IF EXISTS `colles_classe`;
+DROP TABLE IF EXISTS `Colles_Classe`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `colles_classe`  AS  (select `G`.`Eleve` AS `Eleve`,`P`.`Nom` AS `Nom`,`P`.`Prenom` AS `Prenom`,`G`.`Groupe` AS `Groupe`,`G`.`id_groupement` AS `Groupement`,`G`.`idColloscope` AS `idColloscope` from (`colles_personne` `P` join `colles_groupement` `G` on((`P`.`id_personne` = `G`.`Eleve`)))) ;
+CREATE  VIEW `Colles_Classe`  AS  (select `G`.`Eleve` AS `Eleve`,`P`.`Nom` AS `Nom`,`P`.`Prenom` AS `Prenom`,`G`.`Groupe` AS `Groupe`,`G`.`id_groupement` AS `Groupement`,`G`.`idColloscope` AS `idColloscope` from (`Colles_Personne` `P` join `Colles_Groupement` `G` on((`P`.`id_personne` = `G`.`Eleve`)))) ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la vue `colles_crenaucomplet`
+-- Structure de la vue `Colles_CrenauComplet`
 --
-DROP TABLE IF EXISTS `colles_crenaucomplet`;
+DROP TABLE IF EXISTS `Colles_CrenauComplet`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `colles_crenaucomplet`  AS  select `C`.`id_crenau` AS `id_crenau`,`I`.`id_intervenant` AS `id_intervenant`,`C`.`Jour` AS `Jour`,`C`.`Debut` AS `Debut`,`C`.`Fin` AS `Fin`,`C`.`Lieu` AS `Lieu`,`C`.`idColloscope` AS `idColloscope`,`I`.`Matiere` AS `Matiere` from (`colles_crenau` `C` join `colles_intervenant` `I` on((`C`.`Intervenant` = `I`.`id_intervenant`))) ;
+CREATE  VIEW `Colles_CrenauComplet`  AS  select `C`.`id_crenau` AS `id_crenau`,`I`.`id_intervenant` AS `id_intervenant`,`C`.`Jour` AS `Jour`,`C`.`Debut` AS `Debut`,`C`.`Fin` AS `Fin`,`C`.`Lieu` AS `Lieu`,`C`.`idColloscope` AS `idColloscope`,`I`.`Matiere` AS `Matiere` from (`colles_crenau` `C` join `Colles_Intervenant` `I` on((`C`.`Intervenant` = `I`.`id_intervenant`))) ;
 
 --
 -- Contraintes pour les tables exportées
