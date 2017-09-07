@@ -7,7 +7,7 @@ require_once(libPath()."Util.php");
 
 // Ce qui est nécessaire au début d'une page...
 require_once(libPath()."AccesDB.php");
-require(libPath()."Session.php");
+require_once(libPath()."Session.php");;
 
 //require_once(libPath()."Constantes.php");
 
@@ -46,7 +46,7 @@ function actionListeLog($limit=30) {
 }
 
 function main() {
-	echo "<HR>\n";
+	//echo "<HR>\n";
 	actionListeLog();	
 }
 

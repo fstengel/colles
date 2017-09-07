@@ -13,7 +13,7 @@ require_once(libPath()."Util.php");
 
 // Ce qui est nécessaire au début d'une page...
 require_once(libPath()."AccesDB.php");
-require(libPath()."Session.php");
+require_once(libPath()."Session.php");;
 
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
@@ -95,24 +95,25 @@ function decortiquerPOST() {
 		$pass0 = $_POST['pass0'];
 		$util = $session->lUtilisateur();
 		//if ($util->MotDePasse == Session::codage($pass0))
-		if (Session::verifierPasse($util->MotDePasse, $pass0))
+		if ($session->verifierPasse($util->MotDePasse, $pass0))
 		{
 			//echo "MDP OK<BR>\n";
 			$pass1 = $_POST['pass1'];
 			$pass2 = $_POST['pass2'];
 			if ($pass1==$pass2) {
-				//echo "Tout est OK, on change le MDP<BR>";
-				$mdp = Session::codage($pass1);
-				// Ajouter le préfixe prefixeCrypte ? Si oui : décommenter ci dessous
-				//$mdp = prefixeCrypte.$mdp;
+				if ($pass1==="") {
+					$passe = "";
+					$extra = "(attention, il est vide !)";
+				} else {
+					$mdp = Session::codage($pass1);
+					$passe = prefixeCrypte.$mdp;
+					$extra = "";
+				}
 				$id_util = $util->id_personne;
-				$passe = prefixeCrypte.$mdp;
 				$reqSQL = "UPDATE ".PrefixeDB."Personne SET MotDePasse='$passe' WHERE id_personne='$id_util'";
-				//echo "$reqSQL<BR>\n";
-				//print_r($util); echo "<BR>\n";
 				$accesDB->ExecRequete($reqSQL);
 				$util=$session->lUtilisateur(true);
-				$msgPass = '<div>Mot de Passe modifi&eacute; avec succ&egrave;s<BR></div>';
+				$msgPass = "<div>Mot de Passe modifi&eacute; avec succ&egrave;s $extra<BR></div>";
 				return POSTValide;
 			} else {
 				$msgPass = '<div style="color:red;">Nouveaux Mots de Passe diff&eacute;rents !</div>'	;

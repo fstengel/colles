@@ -41,6 +41,7 @@ define("JourDefaut", "2015-09-29");
 
 // Mots de passe
 // Prefixes
+// Pour modifier un MDP à la main depuis l'interface admin.
 define("prefixeClair","Clair:");
 define("prefixeCrypte","*****:");
 // Nature
@@ -55,7 +56,7 @@ if (local) {
 	define("racineSite","http://localhost:8888/colles/"); // Local
 } else {
 	define("racineRoot","");
-	define("racineSite","http://colles.stengel.fr/"); // distant
+	define("racineSite","https://colles.stengel.fr/"); // distant
 }
 define("Debut",racineSite."index.php");
 define("PageDeBase",Debut);

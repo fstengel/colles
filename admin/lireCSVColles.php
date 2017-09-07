@@ -7,7 +7,8 @@ require_once(libPath()."Util.php");
 
 // Ce qui est nécessaire au début d'une page...
 require_once(libPath()."AccesDB.php");
-require(libPath()."Session.php");
+//Changé de require vers require_once
+require_once(libPath()."Session.php");
 
 // Pour la lecture des CSV
 require(libPath()."LibCSV.php");

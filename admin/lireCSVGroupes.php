@@ -29,7 +29,8 @@ function choixFichier() {
 	global $accesDB;
 	global $fichierParDefaut;
 	
-	echo "Fichier par d&eacute;faut : '$fichierParDefaut' <BR>";
+	// Debug
+	//echo "Fichier par d&eacute;faut : '$fichierParDefaut' <BR>";
 
 	$t = new Template(tplPath());
 	$t->set_filenames(array('choix'=>'formChoixFichierCSV.tpl'));
@@ -145,13 +146,13 @@ function main() {
 	$nature = $util->Nature;
 	$actionAFaire = "action".ucfirst($action).ucfirst($nature);
 	
-	echo "Action, nature : '$action', $nature<BR>";
-
-	echo "<HR>\n";
+	// Debug
+	//echo "Action, nature : '$action', $nature<BR>";
+	//echo "<HR>\n";
 	
 	switch ($action) {
 		case "":
-			echo "Action par défaut<BR>";
+			echo "Sélectionner un fichier<BR>";
 			choixFichier();
 			break;
 		case "choix":

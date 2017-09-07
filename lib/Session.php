@@ -16,6 +16,7 @@
  * @var string|False $erreurSession il y a eu une erreur lors de l'ouverture
  * @var object $tpl Le template des formulaires d'identification et de déconnexion.
  */
+/* Pourquoi les chemins ?
 require("Chemins.php");
 
 require_once(libPath()."AccesDB.php");
@@ -23,6 +24,13 @@ require_once(libPath()."AccesDB.php");
 require_once(libPath()."Template.php");
 
 require_once(libPath()."Constantes.php");
+*/
+
+require_once("AccesDB.php");
+//require_once("lib/Formulaire.php");
+require_once("Template.php");
+
+require_once("Constantes.php");
 
 define("INVALIDE",0);
 define("EXPIREE",1);
@@ -79,7 +87,7 @@ class Session {
 	 *
 	 * @return string le mot de passe crypte ou vide si le $mdp==""
 	 */
-	function codage($mdp)
+	static function codage($mdp)
 	{
 		if ($mdp=="") {
 			return "";

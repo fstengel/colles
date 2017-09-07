@@ -7,7 +7,8 @@ require_once(libPath()."Util.php");
 
 // Ce qui est nécessaire au début d'une page...
 require_once(libPath()."AccesDB.php");
-require(libPath()."Session.php");
+//Changé de require vers require_once
+require_once(libPath()."Session.php");
 
 // Pour la lecture des CSV
 require(libPath()."LibCSV.php");
@@ -137,7 +138,7 @@ function main() {
 	global $session;
 	global $accesDB;
 	
-	echo "<HR>\n";
+	//echo "<HR>\n";
 
 	if (isset($_GET['action']) and isset($_POST['valid']))
 		$action = $_GET['action'];
@@ -147,12 +148,12 @@ function main() {
 	$nature = $util->Nature;
 	$actionAFaire = "action".ucfirst($action).ucfirst($nature);
 	
-	echo "Action, nature : '$action', $nature<BR>";
-	echo "<BR>";
+	//echo "Action, nature : '$action', $nature<BR>";
+	//echo "<BR>";
 	
 	switch ($action) {
 		case "":
-			echo "Action par défaut<BR>";
+			echo "Sélectionner un fichier<BR>";
 			choixFichier();
 			break;
 		case "choix":

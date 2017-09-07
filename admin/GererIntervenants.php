@@ -7,7 +7,8 @@ require_once(libPath()."Util.php");
 
 // Ce qui est nécessaire au début d'une page...
 require_once(libPath()."AccesDB.php");
-require(libPath()."Session.php");
+//Changé de require vers require_once
+require_once(libPath()."Session.php");
 
 $accesDB = new AccesDB;
 $session = new Session($accesDB);
@@ -155,7 +156,7 @@ function actionListeIntervenants() {
 }
 
 function main() {
-	echo "<HR>\n";
+	//echo "<HR>\n";
 	actionListeIntervenants();
 	
 }
